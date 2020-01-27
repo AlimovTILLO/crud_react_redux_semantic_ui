@@ -46,7 +46,7 @@ class UsersPage extends React.Component {
     close = () => this.setState({ deleteUserOpen: false, editUserOpen: false, createUserOpen: false })
 
     componentDidMount() {
-        this.props.getUsers({ page: this.state.activePage, per_page: 3 });
+        this.props.getUsers({ page: 1, per_page: 3 });
     }
 
     closeCreateConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
@@ -62,7 +62,7 @@ class UsersPage extends React.Component {
     }
 
     handlePaginationChange = (e, { activePage }) => {
-        this.props.getUsers({ page: activePage, per_page: 3 });
+        this.props.getUsers({ page: activePage, per_page: 4 });
     }
 
     handleDeleteUser = () => {
@@ -102,6 +102,7 @@ class UsersPage extends React.Component {
                             )}
                         </Grid>
                     }
+                    
                     <Pagination floated='right'
                         activePage={users.pages && users.pages.page}
                         boundaryRange={1}
