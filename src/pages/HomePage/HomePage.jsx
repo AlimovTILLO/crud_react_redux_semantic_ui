@@ -1,8 +1,8 @@
 import React from 'react'
 import { Container } from 'semantic-ui-react'
 import { connect } from 'react-redux';
-import { userActions } from '../_actions';
-import { ResponsiveContainer } from './ResponsiveContainer'
+import { userActions } from '../../actions';
+import { ResponsiveContainer } from '../../components/ResponsiveContainer'
 import PropTypes from 'prop-types'
 
 

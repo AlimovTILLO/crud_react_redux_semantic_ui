@@ -1,13 +1,13 @@
 import React from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router';
 import { connect } from 'react-redux';
-import { history } from '../_helpers';
-import { alertActions } from '../_actions';
-import { PrivateRoute } from '../_components';
-import { HomePage } from '../HomePage';
-import { LoginPage } from '../LoginPage';
-import { RegisterPage } from '../RegisterPage';
-import { UsersPage } from '../UsersPage'
+import { history } from '../helpers';
+import { alertActions } from '../actions';
+import { PrivateRoute } from '../components';
+import { HomePage } from '../pages/HomePage';
+import { LoginPage } from '../pages/LoginPage';
+import { RegisterPage } from '../pages/RegisterPage';
+import { UsersPage } from '../pages/UsersPage'
 import { store } from 'react-notifications-component';
 
 class App extends React.Component {

@@ -15,9 +15,9 @@ import {
 import { connect } from 'react-redux';
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { userActions } from '../_actions';
+import { userActions } from '../../actions';
 import PropTypes from 'prop-types'
-import { ResponsiveContainer } from '../HomePage/ResponsiveContainer'
+import { ResponsiveContainer } from '../../components/ResponsiveContainer'
 
 
 
@@ -30,10 +30,7 @@ const validationSchema = Yup.object().shape({
         .required("Необходим first_name"),
     last_name: Yup.string()
         .min(2, "last_name должен содержать не менее 2 символов")
-        .required("Необходим last_name"),
-    password: Yup.string()
-        .min(10, "password должен содержать не менее 10 символов")
-        .required("Необходим password")
+        .required("Необходим last_name")
 })
 
 
@@ -59,7 +56,6 @@ class UsersPage extends React.Component {
         this.setState({ closeOnEscape, closeOnDimmerClick, deleteUserOpen: true, deletingUser: user })
     }
     closeEditConfigShow = (closeOnEscape, closeOnDimmerClick, user) => () => {
-        console.log(user)
         this.setState({
             closeOnEscape, closeOnDimmerClick, editUserOpen: true, editingUser: user
         })
@@ -68,7 +64,6 @@ class UsersPage extends React.Component {
     handleDeleteUser = () => {
         this.close()
         this.props.deleteUser(this.state.deletingUser.id);
-        console.log(this.state.deletingUser.id + 'aaaaaaaaaaaaaaaaaaaaaaaa')
     }
 
     render() {
@@ -133,13 +128,12 @@ class UsersPage extends React.Component {
                                         first_name: "",
                                         last_name: "",
                                         email: "",
-                                        password: "",
-                                        submitted: false
+                                        avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/hebertialmeida/128.jpg'
                                     }}
                                     validationSchema={validationSchema}
                                     onSubmit={values => {
                                         this.close()
-                                        this.props.createUser({ email: values.email, first_name: values.first_name, last_name: values.last_name, id: values.id });
+                                        this.props.createUser({ email: values.email, first_name: values.first_name, last_name: values.last_name, id: values.id , avatar: values.avatar });
                                     }}
                                 >
                                     {({ handleSubmit, handleChange, values, errors }) => (
@@ -147,11 +141,10 @@ class UsersPage extends React.Component {
                                             <Form.Input label='Email *' placeholder='Email' name='email' value={values.email} onChange={handleChange} error={errors.email} />
                                             <Form.Input label='first_name *' placeholder='first_name' name='first_name' value={values.first_name} onChange={handleChange} error={errors.first_name} />
                                             <Form.Input label='last_name *' placeholder='last_name' name='last_name' value={values.last_name} onChange={handleChange} error={errors.last_name} />
-                                            <Form.Input type='password' label='password *' placeholder='password' name='password' value={values.password} onChange={handleChange} error={errors.password} />
-                                            <Form.Input disabled><div class="ui action input">
+                                            <Form.Input disabled><div className="ui action input">
                                                 <input type="file" />
-                                                <button class="ui teal icon right labeled button">
-                                                    <i aria-hidden="true" class="file icon"></i>
+                                                <button className="ui teal icon right labeled button">
+                                                    <i aria-hidden="true" className="file icon"></i>
                                                     Open File </button>
                                             </div></Form.Input>
                                             <Button
@@ -196,13 +189,14 @@ class UsersPage extends React.Component {
                                             <Form.Input label='Email *' placeholder='Email' name='email' value={values.email} onChange={handleChange} error={errors.email} />
                                             <Form.Input label='first_name *' placeholder='first_name' name='first_name' value={values.first_name} onChange={handleChange} error={errors.first_name} />
                                             <Form.Input label='last_name *' placeholder='last_name' name='last_name' value={values.last_name} onChange={handleChange} error={errors.last_name} />
-                                            <Form.Input ><div class="ui action input">
+                                            <Form.Input ><div className="ui action input">
                                                 <input type="file" disabled />
-                                                <button class="ui teal icon right labeled button">
-                                                    <i aria-hidden="true" class="file icon"></i>
+                                                <button className="ui teal icon right labeled button">
+                                                    <i aria-hidden="true" className="file icon"></i>
                                                     Open File </button>
                                             </div></Form.Input>
                                             <Button
+                                                type="button"
                                                 onClick={handleSubmit}
                                                 positive
                                                 labelPosition='right'

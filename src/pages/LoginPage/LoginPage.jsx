@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Dimmer, Loader, Segment, Form, Button, Message, Grid, Header } from 'semantic-ui-react'
-import { userActions } from '../_actions';
+import { userActions } from '../../actions';
 import { Formik } from "formik";
 import * as Yup from "yup";
 
