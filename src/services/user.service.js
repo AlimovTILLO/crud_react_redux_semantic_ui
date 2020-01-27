@@ -29,9 +29,9 @@ function logout() {
     localStorage.removeItem('user');
 }
 
-function getAll(id = 2) {
+function getAll(data) {
 
-    return HTTP.get(`/api/users?page=${id}`).then(handleResponse);
+    return HTTP.get(`/api/users?page=${data.page}&per_page=${data.per_page}`).then(handleResponse);
 }
 
 function getById(id) {

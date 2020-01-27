@@ -20,7 +20,6 @@ import PropTypes from 'prop-types'
 import { ResponsiveContainer } from '../../components/ResponsiveContainer'
 
 
-
 const validationSchema = Yup.object().shape({
     email: Yup.string()
         .email("Email недействителен")
@@ -41,12 +40,13 @@ ResponsiveContainer.propTypes = {
 
 class UsersPage extends React.Component {
 
-    state = { deleteUserOpen: false, editUserOpen: false, createUserOpen: false, deletingUser: {}, editingUser: {} }
+
+    state = { deleteUserOpen: false, editUserOpen: false, createUserOpen: false, deletingUser: {}, editingUser: {}, }
 
     close = () => this.setState({ deleteUserOpen: false, editUserOpen: false, createUserOpen: false })
 
     componentDidMount() {
-        this.props.getUsers();
+        this.props.getUsers({ page: this.state.activePage, per_page: 3 });
     }
 
     closeCreateConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
@@ -61,6 +61,10 @@ class UsersPage extends React.Component {
         })
     }
 
+    handlePaginationChange = (e, { activePage }) => {
+        this.props.getUsers({ page: activePage, per_page: 3 });
+    }
+
     handleDeleteUser = () => {
         this.close()
         this.props.deleteUser(this.state.deletingUser.id);
@@ -68,10 +72,10 @@ class UsersPage extends React.Component {
 
     render() {
         const { users } = this.props;
-        const { deletingUser, editingUser, deleteUserOpen, editUserOpen, createUserOpen, closeOnEscape, closeOnDimmerClick } = this.state
+        const { deletingUser, editingUser, deleteUserOpen, editUserOpen, createUserOpen, closeOnEscape, closeOnDimmerClick} = this.state
         return (
             <ResponsiveContainer>
-                <Container style={{ margin: '3em 0em 0em', padding: '3em 0em' }}>
+                <Container style={{ margin: '3em 0em 0em', padding: '3em 0em', minHeight: 'calc(100vh - 150px)' }}>
                     <Button onClick={this.closeCreateConfigShow(true, false)} icon labelPosition='left' floated="right">
                         <Icon name='user plus' />Add user</Button>
                     <Header>Users:</Header>
@@ -133,7 +137,7 @@ class UsersPage extends React.Component {
                                     validationSchema={validationSchema}
                                     onSubmit={values => {
                                         this.close()
-                                        this.props.createUser({ email: values.email, first_name: values.first_name, last_name: values.last_name, id: values.id , avatar: values.avatar });
+                                        this.props.createUser({ email: values.email, first_name: values.first_name, last_name: values.last_name, avatar: values.avatar });
                                     }}
                                 >
                                     {({ handleSubmit, handleChange, values, errors }) => (

@@ -95,17 +95,18 @@ export function users(state = {}, action) {
         }
       };
     case userConstants.CREATE_REQUEST:
+      let newUserId = state.pages.data.length ? Math.max(...state.pages.data.map(user => user.id)) + 1 : 1;
       return {
         ...state,
         pages: {
           ...state.pages,
           data: [
-            action.user,
-            ...state.pages.data.slice(action.index)
+            ...state.pages.data.slice(action.index),
+            {...action.user, id: newUserId}
           ]
-          }
-
         }
+
+      }
     case userConstants.CREATE_SUCCESS:
       return {
         ...state

@@ -85,11 +85,11 @@ function create(user) {
     function failure(error) { return { type: userConstants.CREATE_FAILURE, error } }
 }
 
-function getAll() {
+function getAll(data) {
     return dispatch => {
         dispatch(request());
 
-        userService.getAll()
+        userService.getAll(data)
             .then(
                 users => dispatch(success(users)),
                 error => dispatch(failure(error.toString()))

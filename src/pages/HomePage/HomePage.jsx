@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container } from 'semantic-ui-react'
 import { connect } from 'react-redux';
-import { userActions } from '../../actions';
+// import { userActions } from '../../actions';
 import { ResponsiveContainer } from '../../components/ResponsiveContainer'
 import PropTypes from 'prop-types'
 
@@ -32,10 +32,6 @@ function mapState(state) {
 }
 
 const actionCreators = {
-    getUsers: userActions.getAll,
-    getUser: userActions.getById,
-    deleteUser: userActions.delete,
-    updateUser: userActions.update
 }
 
 const connectedHomePage = connect(mapState, actionCreators)(HomePage);
