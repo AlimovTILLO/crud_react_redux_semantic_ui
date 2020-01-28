@@ -21,7 +21,7 @@ const getWidth = () => {
 
 
 class DesktopContainer extends Component {
-    state = {activeItem: 'products'}
+    state = {}
 
     handleItemClick = (e, { name, url }) => {
         history.push('/' + url)
@@ -31,7 +31,6 @@ class DesktopContainer extends Component {
     render() {
         const { children } = this.props
         const { activeItem } = this.state
-        console.log(activeItem + 'ooooooooooooooooooooooooooooooooooooooooooo')
         return (
             <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
                 <Menu
