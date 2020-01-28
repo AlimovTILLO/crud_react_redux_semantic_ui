@@ -26,7 +26,7 @@ function login(email, password) {
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error('Неправильный адрес электронной почты или пароль'));
+                    dispatch(alertActions.error('Incorrect email or password'));
                 }
             );
     };
@@ -124,7 +124,7 @@ function update(user) {
             .then(
                 user => {
                     dispatch(success());
-                    dispatch(alertActions.success('Updating successful'));
+                    dispatch(alertActions.success('User edited successfully'));
                 },
                 error => {
                     dispatch(failure(error.toString()));
@@ -148,7 +148,7 @@ function _delete(id) {
             .then(
                 user => {
                     dispatch(success(id));
-                    dispatch(alertActions.success('Deleting successful'));
+                    dispatch(alertActions.success('User deleted successfully'));
                 },
                 error => dispatch(failure(id, error.toString()))
             );

@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { Container, Pagination, Table, Header, Input, Select, Button } from 'semantic-ui-react'
+import { Container, Pagination, Table, Header, Input, Select, Button, Dimmer, Loader } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import { productActions } from '../../actions';
 import { ResponsiveContainer } from '../../components/ResponsiveContainer'
@@ -39,7 +39,7 @@ class HomePage extends React.Component {
         this.setState({ searchValue: this.state.search })
     }
 
-    handleSelectChange  = (e, { value }) => {
+    handleSelectChange = (e, { value }) => {
         this.setState({ selectValue: value });
     }
 
@@ -72,7 +72,7 @@ class HomePage extends React.Component {
     render() {
 
         const { column, direction, searchValue, selectValue } = this.state
-        const { products } = this.props;
+        const { products, loading } = this.props;
         const { data: list = [] } = products.pages || {};
         const filteredList = list.length ? list.filter(obj => obj[selectValue].toString().toLowerCase().startsWith(searchValue.toLowerCase())) : []
         return (
@@ -81,7 +81,7 @@ class HomePage extends React.Component {
 
                     <Input type='text' placeholder='Search...' action onChange={this.handleInputChange}>
                         <input />
-                        <Select compact options={options} value={selectValue} onChange={this.handleSelectChange}/>
+                        <Select compact options={options} value={selectValue} onChange={this.handleSelectChange} />
                         <Button type='submit' onClick={this.handleSearchChange}>Search</Button>
                     </Input>
                     <Header>Products:</Header>
@@ -107,13 +107,18 @@ class HomePage extends React.Component {
                         </Table.Header>
 
                         <Table.Body>
+                            {loading &&
+                                <Dimmer active inverted>
+                                    <Loader size='large'>Loading</Loader>
+                                </Dimmer>
+                            }
                             {
                                 filteredList.map(({ id, name, year, color, pantone_value }) =>
                                     // _.map(data, ({ id, name, year, color, pantone_value }) =>
                                     <Table.Row key={id}>
                                         <Table.Cell>{name}</Table.Cell>
                                         <Table.Cell>{year}</Table.Cell>
-                                        <Table.Cell>{color}  <div style={{width: '20px', height: '20px', backgroundColor: color, display: 'inline-block'}}>&nbsp;</div></Table.Cell>
+                                        <Table.Cell>{color}  <div style={{ width: '20px', height: '20px', backgroundColor: color, display: 'inline-block' }}>&nbsp;</div></Table.Cell>
                                         <Table.Cell>{pantone_value}</Table.Cell>
                                     </Table.Row>
                                 )}
@@ -147,8 +152,8 @@ class HomePage extends React.Component {
 }
 
 function mapState(state) {
-    const { products } = state;
-    return { products };
+    const { products, loading } = state;
+    return { products, loading };
 }
 
 const actionCreators = {

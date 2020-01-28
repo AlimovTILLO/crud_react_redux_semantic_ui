@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
 import { Footer } from './Footer'
+import { history } from '../helpers';
 import {
     Container,
     Icon,
@@ -10,6 +11,7 @@ import {
     Sidebar
 } from 'semantic-ui-react';
 
+const profil = JSON.parse(localStorage.getItem('user'));
 
 const getWidth = () => {
     const isSSR = typeof window === 'undefined'
@@ -19,10 +21,17 @@ const getWidth = () => {
 
 
 class DesktopContainer extends Component {
+    state = {activeItem: 'products'}
+
+    handleItemClick = (e, { name, url }) => {
+        history.push('/' + url)
+        this.setState({ activeItem: name })
+    }
 
     render() {
         const { children } = this.props
-
+        const { activeItem } = this.state
+        console.log(activeItem + 'ooooooooooooooooooooooooooooooooooooooooooo')
         return (
             <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
                 <Menu
@@ -31,10 +40,10 @@ class DesktopContainer extends Component {
                     size='large'
                 >
                     <Container>
-                        <Menu.Item position='right' active><Link to="/">Products</Link></Menu.Item>
-                        <Menu.Item position='left'><Link to="/users">Users</Link></Menu.Item>
+                        <Menu.Item name='products' url='' active={activeItem === 'products'} onClick={this.handleItemClick}>Products</Menu.Item>
+                        <Menu.Item name='users' url='users' active={activeItem === 'users'} onClick={this.handleItemClick}>Users</Menu.Item>
                         <Menu.Item position='right'>
-                        <Menu.Item position='right'>aasas@asdasd.as</Menu.Item>
+                            <Menu.Item position='right'>{profil.email}</Menu.Item>
                             <Link to="/login">Logout</Link>
                         </Menu.Item>
                     </Container>
@@ -56,11 +65,16 @@ class MobileContainer extends Component {
 
     handleSidebarHide = () => this.setState({ sidebarOpened: false })
 
+    handleItemClick = (e, { name, url }) => {
+        history.push('/' + url)
+        this.setState({ activeItem: name })
+    }
+
     handleToggle = () => this.setState({ sidebarOpened: true })
 
     render() {
         const { children } = this.props
-        const { sidebarOpened } = this.state
+        const { sidebarOpened, activeItem } = this.state
         return (
             <Responsive
                 as={Sidebar.Pushable}
@@ -75,8 +89,11 @@ class MobileContainer extends Component {
                     vertical
                     visible={sidebarOpened}
                 >
-                    <Menu.Item active><Link to="/">Products</Link></Menu.Item>
-                    <Menu.Item ><Link to="/users">Users</Link></Menu.Item>
+                    <Menu.Item name='products' url='' active={activeItem === 'products'} onClick={this.handleItemClick}>Products</Menu.Item>
+                    <Menu.Item name='users' url='users' active={activeItem === 'users'} onClick={this.handleItemClick}>Users</Menu.Item>
+                    <Menu.Item position='right'>
+                        <Link to="/login">Logout</Link>
+                    </Menu.Item>
                 </Sidebar>
 
                 <Sidebar.Pusher dimmed={sidebarOpened}>
@@ -89,7 +106,7 @@ class MobileContainer extends Component {
                                 <Icon name='sidebar' />
                             </Menu.Item>
                             <Menu.Item position='right'>
-                                <p>aasas@asdasd.as</p>
+                                <p>{profil.email}</p>
                             </Menu.Item>
                         </Menu>
                     </Container>

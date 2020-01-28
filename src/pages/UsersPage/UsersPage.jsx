@@ -10,7 +10,10 @@ import {
     Grid,
     Card,
     Image,
-    Icon
+    Icon, 
+    Segment,
+    Loader, 
+    Dimmer
 } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import { Formik } from "formik";
@@ -25,11 +28,11 @@ const validationSchema = Yup.object().shape({
         .email("Email недействителен")
         .required("Требуется электронная почта"),
     first_name: Yup.string()
-        .min(2, "first_name должен содержать не менее 2 символов")
-        .required("Необходим first_name"),
+        .min(2, "FirstName должен содержать не менее 2 символов")
+        .required("Необходим FirstName"),
     last_name: Yup.string()
-        .min(2, "last_name должен содержать не менее 2 символов")
-        .required("Необходим last_name")
+        .min(2, "LastName должен содержать не менее 2 символов")
+        .required("Необходим LastName")
 })
 
 
@@ -62,7 +65,7 @@ class UsersPage extends React.Component {
     }
 
     handlePaginationChange = (e, { activePage }) => {
-        this.props.getUsers({ page: activePage, per_page: 4 });
+        this.props.getUsers({ page: activePage, per_page: 3 });
     }
 
     handleDeleteUser = () => {
@@ -79,7 +82,7 @@ class UsersPage extends React.Component {
                     <Button onClick={this.closeCreateConfigShow(true, false)} icon labelPosition='left' floated="right">
                         <Icon name='user plus' />Add user</Button>
                     <Header>Users:</Header>
-                    {users.loading && <em>Loading users...</em>}
+                    {users.loading && <Dimmer active inverted> <Loader size='large'>Loading</Loader> </Dimmer>}
                     {users.error && <Message color='red'>{users.error}</Message>}
                     {users.pages &&
                         <Grid container columns={3} doubling stackable>
@@ -102,8 +105,8 @@ class UsersPage extends React.Component {
                             )}
                         </Grid>
                     }
-                    
-                    <Pagination floated='right'
+                    <Segment floated='right' style={{ padding: '8em 0em' }} vertical>
+                    <Pagination 
                         activePage={users.pages && users.pages.page}
                         boundaryRange={1}
                         onPageChange={this.handlePaginationChange}
@@ -115,7 +118,7 @@ class UsersPage extends React.Component {
                         lastItem={true ? undefined : null}
                         prevItem={true ? undefined : null}
                         nextItem={true ? undefined : null}
-                    />
+                    /></Segment>
                     <Modal
                         size='tiny'
                         open={createUserOpen}
@@ -123,7 +126,7 @@ class UsersPage extends React.Component {
                         closeOnDimmerClick={closeOnDimmerClick}
                         onClose={this.close}
                     >
-                        <Modal.Header>Create User</Modal.Header>
+                        <Modal.Header>Add User</Modal.Header>
                         <Modal.Content>
 
                             <Modal.Description>
@@ -153,6 +156,7 @@ class UsersPage extends React.Component {
                                                     Open File </button>
                                             </div></Form.Input>
                                             <Button
+                                                disabled={(errors.email || !values.email) || (errors.first_name || !values.first_name)}
                                                 type="button"
                                                 onClick={handleSubmit}
                                                 positive
@@ -176,7 +180,7 @@ class UsersPage extends React.Component {
                         closeOnDimmerClick={closeOnDimmerClick}
                         onClose={this.close}
                     >
-                        <Modal.Header>Edit User Account</Modal.Header>
+                        <Modal.Header>Edit user</Modal.Header>
                         <Modal.Content>
 
                             <Modal.Description>
@@ -192,15 +196,16 @@ class UsersPage extends React.Component {
                                     {({ handleSubmit, handleChange, values, errors }) => (
                                         <Form onSubmit={handleSubmit}>
                                             <Form.Input label='Email *' placeholder='Email' name='email' value={values.email} onChange={handleChange} error={errors.email} />
-                                            <Form.Input label='first_name *' placeholder='first_name' name='first_name' value={values.first_name} onChange={handleChange} error={errors.first_name} />
-                                            <Form.Input label='last_name *' placeholder='last_name' name='last_name' value={values.last_name} onChange={handleChange} error={errors.last_name} />
-                                            <Form.Input ><div className="ui action input">
-                                                <input type="file" disabled />
+                                            <Form.Input label='FirstName *' placeholder='first_name' name='first_name' value={values.first_name} onChange={handleChange} error={errors.first_name} />
+                                            <Form.Input label='LastName *' placeholder='last_name' name='last_name' value={values.last_name} onChange={handleChange} error={errors.last_name} />
+                                            <Form.Input disabled><div className="ui action input">
+                                                <input type="file" />
                                                 <button className="ui teal icon right labeled button">
                                                     <i aria-hidden="true" className="file icon"></i>
                                                     Open File </button>
                                             </div></Form.Input>
                                             <Button
+                                                disabled={(errors.email || !values.email) || (errors.first_name || !values.first_name)}
                                                 type="button"
                                                 onClick={handleSubmit}
                                                 positive
@@ -226,10 +231,10 @@ class UsersPage extends React.Component {
                     >
                         <Modal.Header>Delete Your Account</Modal.Header>
                         <Modal.Content>
-                            <p>Are you sure you want to delete account <b>{deletingUser.first_name + ' ' + deletingUser.last_name}</b></p>
+                            <p>Are you sure delete use <b>{deletingUser.first_name + ' ' + deletingUser.last_name}</b></p>
                         </Modal.Content>
                         <Modal.Actions>
-                            <Button onClick={this.close} negative>No</Button>
+                            <Button onClick={this.close} negative floated="right">Cencel</Button>
                             <Button
                                 onClick={this.handleDeleteUser}
                                 positive

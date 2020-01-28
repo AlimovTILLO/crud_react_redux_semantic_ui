@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Dimmer, Loader, Segment, Form, Button, Message, Grid, Header } from 'semantic-ui-react'
+import { Dimmer, Loader, Segment, Form, Button, Grid, Header } from 'semantic-ui-react'
 import { userActions } from '../../actions';
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -59,9 +59,9 @@ class LoginPage extends React.Component {
                                     <Loader size='large'>Loading</Loader>
                                 </Dimmer>
                             }
-                            <Message>
+                            {/* <Message>
                                 New to us? <Link to="/register" className="btn btn-link">Register</Link>
-                            </Message>
+                            </Message> */}
                         </Grid.Column>
                     </Grid>
                 )}

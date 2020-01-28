@@ -8,6 +8,7 @@ export function products(state = {}, action) {
       };
     case productConstants.GETALL_SUCCESS:
       return {
+        loading: true,
         pages: action.products
       };
     case productConstants.GETALL_FAILURE:
