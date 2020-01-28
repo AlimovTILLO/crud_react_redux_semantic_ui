@@ -88,10 +88,10 @@ class UsersPage extends React.Component {
                     {users.loading && <Dimmer active inverted> <Loader size='large'>Loading</Loader> </Dimmer>}
                     {users.error && <Message color='red'>{users.error}</Message>}
                     {users.pages &&
-                        <Grid container columns={3} doubling stackable>
+                        <Grid container columns={3} doubling stackable >
                             {users.pages.data.map((user, index) =>
-                                <Grid.Column key={user.id}>
-                                    <Card style={{ width: 'none' }}>
+                                <Grid.Column key={user.id} >
+                                    <Card>
                                         <Image src={user.avatar} wrapped ui={false} />
                                         <Card.Content>
                                             <Card.Header>{user.first_name + ' ' + user.last_name}</Card.Header>
