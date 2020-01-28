@@ -10,10 +10,11 @@ import {
     Grid,
     Card,
     Image,
-    Icon, 
+    Icon,
     Segment,
-    Loader, 
-    Dimmer
+    Loader,
+    Dimmer,
+    Label
 } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import { Formik } from "formik";
@@ -46,7 +47,7 @@ class UsersPage extends React.Component {
 
     state = { deleteUserOpen: false, editUserOpen: false, createUserOpen: false, deletingUser: {}, editingUser: {}, }
 
-    close = () => this.setState({ deleteUserOpen: false, editUserOpen: false, createUserOpen: false })
+    close = () => this.setState({ deleteUserOpen: false, editUserOpen: false, createUserOpen: false, fileUrl: '' })
 
     componentDidMount() {
         this.props.getUsers({ page: 1, per_page: 3 });
@@ -68,6 +69,8 @@ class UsersPage extends React.Component {
         this.props.getUsers({ page: activePage, per_page: 3 });
     }
 
+    handleFileChange = (e) =>  this.setState({ fileUrl: e.target.value})
+
     handleDeleteUser = () => {
         this.close()
         this.props.deleteUser(this.state.deletingUser.id);
@@ -75,7 +78,7 @@ class UsersPage extends React.Component {
 
     render() {
         const { users } = this.props;
-        const { deletingUser, editingUser, deleteUserOpen, editUserOpen, createUserOpen, closeOnEscape, closeOnDimmerClick} = this.state
+        const { deletingUser, editingUser, deleteUserOpen, editUserOpen, createUserOpen, closeOnEscape, closeOnDimmerClick, fileUrl } = this.state
         return (
             <ResponsiveContainer>
                 <Container style={{ margin: '3em 0em 0em', padding: '3em 0em', minHeight: 'calc(100vh - 150px)' }}>
@@ -106,19 +109,19 @@ class UsersPage extends React.Component {
                         </Grid>
                     }
                     <Segment floated='right' style={{ padding: '8em 0em' }} vertical>
-                    <Pagination 
-                        activePage={users.pages && users.pages.page}
-                        boundaryRange={1}
-                        onPageChange={this.handlePaginationChange}
-                        size='mini'
-                        siblingRange={1}
-                        totalPages={users.pages && users.pages.total_pages}
-                        ellipsisItem={false ? undefined : null}
-                        firstItem={true ? undefined : null}
-                        lastItem={true ? undefined : null}
-                        prevItem={true ? undefined : null}
-                        nextItem={true ? undefined : null}
-                    /></Segment>
+                        <Pagination
+                            activePage={users.pages && users.pages.page}
+                            boundaryRange={1}
+                            onPageChange={this.handlePaginationChange}
+                            size='mini'
+                            siblingRange={1}
+                            totalPages={users.pages && users.pages.total_pages}
+                            ellipsisItem={false ? undefined : null}
+                            firstItem={true ? undefined : null}
+                            lastItem={true ? undefined : null}
+                            prevItem={true ? undefined : null}
+                            nextItem={true ? undefined : null}
+                        /></Segment>
                     <Modal
                         size='tiny'
                         open={createUserOpen}
@@ -149,12 +152,12 @@ class UsersPage extends React.Component {
                                             <Form.Input label='Email *' placeholder='Email' name='email' value={values.email} onChange={handleChange} error={errors.email} />
                                             <Form.Input label='first_name *' placeholder='first_name' name='first_name' value={values.first_name} onChange={handleChange} error={errors.first_name} />
                                             <Form.Input label='last_name *' placeholder='last_name' name='last_name' value={values.last_name} onChange={handleChange} error={errors.last_name} />
-                                            <Form.Input disabled><div className="ui action input">
-                                                <input type="file" />
-                                                <button className="ui teal icon right labeled button">
-                                                    <i aria-hidden="true" className="file icon"></i>
-                                                    Open File </button>
-                                            </div></Form.Input>
+                                            <Form.Input >
+                                                <input type="text" placeholder="Select file" disabled value={fileUrl}/>
+                                                <input hidden id="file" type="file" onChange={this.handleFileChange } />
+                                                <Label width="4" as="label" htmlFor="file" size="big"><Icon name="file" />Select</Label>
+                                            </Form.Input>
+
                                             <Button
                                                 disabled={(errors.email || !values.email) || (errors.first_name || !values.first_name)}
                                                 type="button"
@@ -198,12 +201,11 @@ class UsersPage extends React.Component {
                                             <Form.Input label='Email *' placeholder='Email' name='email' value={values.email} onChange={handleChange} error={errors.email} />
                                             <Form.Input label='FirstName *' placeholder='first_name' name='first_name' value={values.first_name} onChange={handleChange} error={errors.first_name} />
                                             <Form.Input label='LastName *' placeholder='last_name' name='last_name' value={values.last_name} onChange={handleChange} error={errors.last_name} />
-                                            <Form.Input disabled><div className="ui action input">
-                                                <input type="file" />
-                                                <button className="ui teal icon right labeled button">
-                                                    <i aria-hidden="true" className="file icon"></i>
-                                                    Open File </button>
-                                            </div></Form.Input>
+                                            <Form.Input >
+                                                <input type="text" placeholder="Select file" disabled value={fileUrl}/>
+                                                <input hidden id="file" type="file" onChange={this.handleFileChange } />
+                                                <Label width="4" as="label" htmlFor="file" size="big"><Icon name="file" />Select</Label>
+                                            </Form.Input>
                                             <Button
                                                 disabled={(errors.email || !values.email) || (errors.first_name || !values.first_name)}
                                                 type="button"
