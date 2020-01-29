@@ -2,7 +2,6 @@ import React from 'react'
 import {
     Button,
     Modal,
-    Pagination,
     Message,
     Form,
     Container,
@@ -20,6 +19,7 @@ import { connect } from 'react-redux';
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { userActions } from '../../actions';
+import { PaginationComponent } from '../../components/PaginationComponent'
 import PropTypes from 'prop-types'
 import { ResponsiveContainer } from '../../components/ResponsiveContainer'
 
@@ -109,19 +109,9 @@ class UsersPage extends React.Component {
                         </Grid>
                     }
                     <Segment floated='right' style={{ padding: '8em 0em' }} vertical>
-                        <Pagination
-                            activePage={users.pages && users.pages.page}
-                            boundaryRange={1}
-                            onPageChange={this.handlePaginationChange}
-                            size='mini'
-                            siblingRange={1}
-                            totalPages={users.pages && users.pages.total_pages}
-                            ellipsisItem={false ? undefined : null}
-                            firstItem={true ? undefined : null}
-                            lastItem={true ? undefined : null}
-                            prevItem={true ? undefined : null}
-                            nextItem={true ? undefined : null}
-                        /></Segment>
+                        
+                    <PaginationComponent activePage={users.pages && users.pages.page} totalPages={users.pages && users.pages.total_pages} onPageChange={this.handlePaginationChange} />
+                        </Segment>
                     <Modal
                         size='tiny'
                         open={createUserOpen}

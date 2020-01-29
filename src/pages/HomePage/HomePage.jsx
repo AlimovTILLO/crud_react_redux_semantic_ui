@@ -1,8 +1,9 @@
 import React from 'react'
 import _ from 'lodash'
-import { Container, Pagination, Table, Header, Input, Select, Button, Dimmer, Loader, Segment } from 'semantic-ui-react'
+import { Container, Table, Header, Input, Select, Button, Dimmer, Loader, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import { productActions } from '../../actions';
+import { PaginationComponent } from '../../components/PaginationComponent'
 import { ResponsiveContainer } from '../../components/ResponsiveContainer'
 import PropTypes from 'prop-types'
 
@@ -125,19 +126,8 @@ class HomePage extends React.Component {
                         </Table.Body>
                     </Table>
                     <Segment floated='right' style={{ padding: '8em 0em' }} vertical>
-                        <Pagination floated='right'
-                            activePage={products.pages && products.pages.page}
-                            boundaryRange={1}
-                            onPageChange={this.handlePaginationChange}
-                            size='mini'
-                            siblingRange={1}
-                            totalPages={products.pages && products.pages.total_pages}
-                            ellipsisItem={false ? undefined : null}
-                            firstItem={true ? undefined : null}
-                            lastItem={true ? undefined : null}
-                            prevItem={true ? undefined : null}
-                            nextItem={true ? undefined : null}
-                        /></Segment>
+                        <PaginationComponent activePage={products.pages && products.pages.page} totalPages={products.pages && products.pages.total_pages} onPageChange={this.handlePaginationChange} />
+                    </Segment>
                 </Container>
             </ResponsiveContainer>
         );
