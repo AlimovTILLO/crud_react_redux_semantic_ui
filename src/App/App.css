@@ -2,7 +2,6 @@
     width: 100% !important;
 }
 .ui.grid>.column:not(.row), .ui.grid>.row>.column {
-    padding-left: 3rem !important;
-    padding-right: 3rem !important;
+    padding: 2rem !important;
 }
 

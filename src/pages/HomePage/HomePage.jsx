@@ -125,7 +125,7 @@ class HomePage extends React.Component {
                                 )}
                         </Table.Body>
                     </Table>
-                    <Segment floated='right' style={{ padding: '8em 0em' }} vertical>
+                    <Segment floated='right' vertical>
                         <PaginationComponent activePage={products.pages && products.pages.page} totalPages={products.pages && products.pages.total_pages} onPageChange={this.handlePaginationChange} />
                     </Segment>
                 </Container>

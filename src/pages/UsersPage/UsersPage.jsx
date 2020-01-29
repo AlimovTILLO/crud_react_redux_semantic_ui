@@ -108,7 +108,7 @@ class UsersPage extends React.Component {
                             )}
                         </Grid>
                     }
-                    <Segment floated='right' style={{ padding: '8em 0em' }} vertical>
+                    <Segment floated='right' vertical>
                         
                     <PaginationComponent activePage={users.pages && users.pages.page} totalPages={users.pages && users.pages.total_pages} onPageChange={this.handlePaginationChange} />
                         </Segment>

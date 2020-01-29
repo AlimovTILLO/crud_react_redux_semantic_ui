@@ -10,7 +10,7 @@ import React from 'react'
 export class Footer extends React.Component {
 
     render() {
-        return (<Segment inverted  style={{ margin: '5em 0em 0em', padding: '3em 0em'}} vertical>
+        return (<Segment inverted  style={{ margin: '2em 0em 0em', padding: '2em 0em'}} vertical>
         <Container>
             <Grid divided inverted stackable>
                 <Grid.Row>
