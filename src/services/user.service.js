@@ -1,4 +1,4 @@
-import { HTTP } from './api'
+import { HTTP, baseURL } from './api'
 import Axios from 'axios';
 // import { authHeader } from '../helpers';
 
@@ -57,7 +57,7 @@ function create(user) {
     }
 
     return Axios({
-        url: 'http://127.0.0.1:8000/api/users/',
+        url: baseURL + 'api/users/',
         method: 'POST',
         headers: {
             'content-type': 'multipart/form-data'

@@ -45,9 +45,9 @@ ResponsiveContainer.propTypes = {
 class UsersPage extends React.Component {
 
 
-    state = { deleteUserOpen: false, editUserOpen: false, createUserOpen: false, deletingUser: {}, editingUser: {}, activePage: 1}
+    state = { deleteUserOpen: false, editUserOpen: false, createUserOpen: false, deletingUser: {}, editingUser: {}, activePage: 1 }
 
-    close = () => this.setState({ deleteUserOpen: false, editUserOpen: false, createUserOpen: false, fileUrl: '' , filedata: null})
+    close = () => this.setState({ deleteUserOpen: false, editUserOpen: false, createUserOpen: false, fileUrl: '', filedata: null })
 
     componentDidMount() {
         this.props.getUsers(1);
@@ -67,20 +67,34 @@ class UsersPage extends React.Component {
 
     handlePaginationChange = (e, { activePage }) => {
         this.props.getUsers(activePage);
-        this.setState({activePage: activePage})
+        this.setState({ activePage: activePage })
     }
 
-    handleFileChange = (e) =>  {
-        this.setState({ fileUrl: e.target.value, filedata: e.target.files[0]})
+    handleFileChange = (e) => {
+        this.setState({ fileUrl: e.target.value, filedata: e.target.files[0] })
     }
 
     handleDeleteUser = () => {
-        const { activePage, deletingUser } = this.state
-        console.log('activePage: ' + activePage)
+
         this.close()
-        
-        this.props.deleteUser({id: deletingUser.id, page: activePage});
-        this.setState({activePage: activePage})
+
+        const { activePage, deletingUser } = this.state
+        const { users } = this.props;
+
+        if (users.pages.data.length === 1) {
+            this.props.deleteUser({ id: deletingUser.id, page: activePage - 1 });
+            this.setState({ activePage: activePage - 1 })
+            if (activePage === 1) {
+                this.props.deleteUser({ id: deletingUser.id, page: 1 });
+                this.setState({ activePage: 1 })
+            }
+        } else {
+
+            this.props.deleteUser({ id: deletingUser.id, page: activePage });
+            this.setState({ activePage: activePage })
+        }
+
+
 
     }
 
@@ -117,9 +131,9 @@ class UsersPage extends React.Component {
                         </Grid>
                     }
                     <Segment floated='right' vertical>
-                        
-                    <PaginationComponent activePage={activePage} totalPages={(users.pages && users.pages.total_pages) || ''} onPageChange={this.handlePaginationChange} />
-                        </Segment>
+
+                        <PaginationComponent activePage={activePage} totalPages={(users.pages && users.pages.total_pages) || ''} onPageChange={this.handlePaginationChange} />
+                    </Segment>
                     <Modal
                         size='tiny'
                         open={createUserOpen}
@@ -142,8 +156,8 @@ class UsersPage extends React.Component {
                                     validationSchema={validationSchema}
                                     onSubmit={values => {
                                         this.close()
-                                        this.props.createUser({ email: values.email, first_name: values.first_name, last_name: values.last_name, avatar: filedata}, activePage);
-                                        this.setState({activePage: activePage})
+                                        this.props.createUser({ email: values.email, first_name: values.first_name, last_name: values.last_name, avatar: filedata }, activePage);
+                                        this.setState({ activePage: activePage })
                                     }}
                                 >
                                     {({ handleSubmit, handleChange, values, errors }) => (
@@ -152,13 +166,13 @@ class UsersPage extends React.Component {
                                             <Form.Input label='first_name *' placeholder='first_name' name='first_name' value={values.first_name} onChange={handleChange} error={errors.first_name} />
                                             <Form.Input label='last_name *' placeholder='last_name' name='last_name' value={values.last_name} onChange={handleChange} error={errors.last_name} />
                                             <Form.Input >
-                                                <input type="text" placeholder="Select file" disabled value={fileUrl}/>
-                                                <input hidden id="file" type="file" onChange={this.handleFileChange } />
+                                                <input type="text" placeholder="Select file" disabled value={fileUrl} />
+                                                <input hidden id="file" type="file" accept="image/x-png,image/gif,image/jpeg" onChange={this.handleFileChange} />
                                                 <Label width="4" as="label" htmlFor="file" size="big"><Icon name="file" />Select</Label>
                                             </Form.Input>
 
                                             <Button
-                                                disabled={(errors.email || !values.email) || (errors.first_name || !values.first_name)  ? true : false}
+                                                disabled={(errors.email || !values.email) || (errors.first_name || !values.first_name) ? true : false}
                                                 type="submit"
                                                 onClick={handleSubmit}
                                                 positive
@@ -193,7 +207,7 @@ class UsersPage extends React.Component {
                                     onSubmit={values => {
                                         this.close()
                                         this.props.updateUser({ email: values.email, first_name: values.first_name, last_name: values.last_name, avatar: filedata, id: values.id });
-                                        this.setState({activePage: activePage})
+                                        this.setState({ activePage: activePage })
                                     }}
                                 >
                                     {({ handleSubmit, handleChange, values, errors }) => (
@@ -202,8 +216,8 @@ class UsersPage extends React.Component {
                                             <Form.Input label='FirstName *' placeholder='first_name' name='first_name' value={values.first_name} onChange={handleChange} error={errors.first_name} />
                                             <Form.Input label='LastName *' placeholder='last_name' name='last_name' value={values.last_name} onChange={handleChange} error={errors.last_name} />
                                             <Form.Input >
-                                                <input type="text" placeholder="Select file" disabled value={fileUrl}/>
-                                                <input hidden id="file" type="file" onChange={this.handleFileChange } />
+                                                <input type="text" placeholder="Select file" disabled value={fileUrl} />
+                                                <input hidden id="file" type="file" accept="image/x-png,image/gif,image/jpeg" onChange={this.handleFileChange} />
                                                 <Label width="4" as="label" htmlFor="file" size="big"><Icon name="file" />Select</Label>
                                             </Form.Input>
                                             <Button
