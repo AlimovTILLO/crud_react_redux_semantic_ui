@@ -7,8 +7,7 @@ import {
     Menu,
     Responsive
 } from 'semantic-ui-react';
-
-const profil = JSON.parse(localStorage.getItem('user'));
+import { connect } from 'react-redux';
 
 const getWidth = () => {
     const isSSR = typeof window === 'undefined'
@@ -17,7 +16,7 @@ const getWidth = () => {
 }
 
 
-export  class DesktopContainer extends Component {
+class DesktopContainer extends Component {
     state = {}
 
     handleItemClick = (e, { name, url }) => {
@@ -26,7 +25,7 @@ export  class DesktopContainer extends Component {
     }
 
     render() {
-        const { children } = this.props
+        const { children , profil } = this.props
         const { activeItem } = this.state
         return (
             <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
@@ -39,7 +38,7 @@ export  class DesktopContainer extends Component {
                         <Menu.Item name='products' url='' active={activeItem === 'products'} onClick={this.handleItemClick}>Products</Menu.Item>
                         <Menu.Item name='users' url='users' active={activeItem === 'users'} onClick={this.handleItemClick}>Users</Menu.Item>
                         <Menu.Item position='right'>
-                            <Menu.Item position='right'>{profil.email}</Menu.Item>
+                            <Menu.Item position='right'>{profil.user.email}</Menu.Item>
                             <Link to="/login">Logout</Link>
                         </Menu.Item>
                     </Container>
@@ -54,3 +53,14 @@ export  class DesktopContainer extends Component {
 DesktopContainer.propTypes = {
     children: PropTypes.node,
 }
+
+
+function mapState(state) {
+    const { authentication } = state;
+    const { profil } = authentication;
+    return { profil };
+}
+
+
+const connectedDesktopContainer = connect(mapState)(DesktopContainer);
+export { connectedDesktopContainer as DesktopContainer };

@@ -60,13 +60,17 @@ export function users(state = {}, action) {
       };
     case userConstants.UPDATE_REQUEST:
       return {
+        ...state
+
+      };
+    case userConstants.UPDATE_SUCCESS:
+      return {
         ...state,
         pages: {
           ...state.pages,
           data: state.pages.data.map((user) => {
             if (user.id === action.user.id) {
               return {
-                ...user,
                 ...action.user
               }
             }
@@ -76,46 +80,34 @@ export function users(state = {}, action) {
 
         }
       };
-    case userConstants.UPDATE_SUCCESS:
-      return {
-        ...state
-      };
     case userConstants.UPDATE_FAILURE:
       return {
         ...state,
         pages: {
-          page: state.pages.page, total_pages: state.pages.total_pages, data: state.pages.data.map(user => {
+          ...state.pages,
+          data: state.pages.data.map((user) => {
             if (user.id === action.id) {
               const { deleting, ...userCopy } = user;
-              return { ...userCopy, deleteError: action.error };
+              return { ...userCopy, deleteError: action.error 
+              };
             }
-
             return user;
           })
         }
       };
     case userConstants.CREATE_REQUEST:
-      let newUserId = state.pages.data.length ? Math.max(...state.pages.data.map(user => user.id)) + 1 : 1;
       return {
         ...state,
-        pages: {
-          ...state.pages,
-          data: [
-            ...state.pages.data.slice(action.index),
-            {...action.user, id: newUserId}
-          ]
-        }
-
       }
     case userConstants.CREATE_SUCCESS:
       return {
         ...state
       };
     case userConstants.CREATE_FAILURE:
-      return {
-        ...state,
+      return {...state,
         pages: {
-          page: state.pages.page, total_pages: state.pages.total_pages, data: state.pages.data.map(user => {
+          ...state.pages,
+          data: state.pages.data.map((user) => {
             if (user.id === action.id) {
               const { deleting, ...userCopy } = user;
               return { ...userCopy, deleteError: action.error };

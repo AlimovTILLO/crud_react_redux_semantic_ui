@@ -64,20 +64,20 @@ function register(user) {
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 }
 
-function create(user) {
-    return dispatch => {
+function create(user, page) {
+    return async dispatch => {
         dispatch(request(user));
-        userService.create(user)
-            .then(
-                user => {
-                    dispatch(success(user));
-                    dispatch(alertActions.success('User successful created'));
-                },
-                error => {
-                    dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
-                }
-            );
+        try {
+            const { async } = await userService.create(user)
+            dispatch(success(user));
+            dispatch(getAll( page ))
+            dispatch(alertActions.success('User successful created'));
+            console.log('async', async)
+
+        } catch ({ response }) {
+            dispatch(failure(response.data.email[0]));
+            dispatch(alertActions.error(response.data.email[0]));
+        }
     };
 
     function request(user) { return { type: userConstants.CREATE_REQUEST, user } }
@@ -85,11 +85,11 @@ function create(user) {
     function failure(error) { return { type: userConstants.CREATE_FAILURE, error } }
 }
 
-function getAll(data) {
+function getAll(page) {
     return dispatch => {
         dispatch(request());
 
-        userService.getAll(data)
+        userService.getAll(page)
             .then(
                 users => dispatch(success(users)),
                 error => dispatch(failure(error.toString()))
@@ -123,7 +123,7 @@ function update(user) {
         userService.update(user, user.id)
             .then(
                 user => {
-                    dispatch(success());
+                    dispatch(success(user));
                     dispatch(alertActions.success('User edited successfully'));
                 },
                 error => {
@@ -139,19 +139,23 @@ function update(user) {
 }
 
 
-// prefixed function name with underscore because delete is a reserved word in javascript
-function _delete(id) {
+function _delete(data) {
+    console.log(JSON.stringify(data) + 'asssssssssssssssssssssssssssssss')
     return dispatch => {
-        dispatch(request(id));
+        dispatch(request(data.id));
 
-        userService.delete(id)
+
+        userService.delete(data.id)
             .then(
                 user => {
-                    dispatch(success(id));
+                    dispatch(success(data.id));
+                    dispatch(getAll(data.page))
                     dispatch(alertActions.success('User deleted successfully'));
                 },
-                error => dispatch(failure(id, error.toString()))
+                error => dispatch(failure(data.id, error.toString()))
             );
+
+
     };
 
     function request(id) { return { type: userConstants.DELETE_REQUEST, id } }

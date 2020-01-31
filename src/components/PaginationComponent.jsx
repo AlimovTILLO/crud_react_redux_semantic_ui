@@ -5,7 +5,7 @@ export class PaginationComponent extends React.Component {
 
     render() {
         const { activePage, totalPages , onPageChange} = this.props;
-        return (<Pagination floated='right'
+        return (<Pagination
             activePage={activePage}
             boundaryRange={1}
             onPageChange={onPageChange}

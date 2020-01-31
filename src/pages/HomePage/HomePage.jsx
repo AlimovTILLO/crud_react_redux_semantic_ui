@@ -29,7 +29,7 @@ class HomePage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getProducts({ page: 1, per_page: 4 });
+        this.props.getProducts({ page: 1});
     }
 
     handleInputChange = (e, { value }) => {
@@ -67,7 +67,7 @@ class HomePage extends React.Component {
 
     handlePaginationChange = (e, { activePage }) => {
         this.setState({ searchValue: '' })
-        this.props.getProducts({ page: activePage, per_page: 4 });
+        this.props.getProducts({ page: activePage });
     }
 
     render() {
@@ -126,7 +126,7 @@ class HomePage extends React.Component {
                         </Table.Body>
                     </Table>
                     <Segment floated='right' vertical>
-                        <PaginationComponent activePage={products.pages && products.pages.page} totalPages={products.pages && products.pages.total_pages} onPageChange={this.handlePaginationChange} />
+                        <PaginationComponent activePage={(products.pages && products.pages.page) || ''} totalPages={(products.pages && products.pages.total_pages) || ''} onPageChange={this.handlePaginationChange} />
                     </Segment>
                 </Container>
             </ResponsiveContainer>

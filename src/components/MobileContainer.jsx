@@ -10,7 +10,8 @@ import {
     Sidebar
 } from 'semantic-ui-react';
 
-const profil = JSON.parse(localStorage.getItem('user'));
+import { connect } from 'react-redux';
+
 
 const getWidth = () => {
     const isSSR = typeof window === 'undefined'
@@ -19,7 +20,7 @@ const getWidth = () => {
 }
 
 
-export class MobileContainer extends Component {
+class MobileContainer extends Component {
 
     state = { sidebarOpened: false }
 
@@ -33,7 +34,7 @@ export class MobileContainer extends Component {
     handleToggle = () => this.setState({ sidebarOpened: true })
 
     render() {
-        const { children } = this.props
+        const { children, profil } = this.props
         const { sidebarOpened, activeItem } = this.state
         return (
             <Responsive
@@ -66,7 +67,7 @@ export class MobileContainer extends Component {
                                 <Icon name='sidebar' />
                             </Menu.Item>
                             <Menu.Item position='right'>
-                                <p>{profil.email}</p>
+                                <p>{profil.user.email}</p>
                             </Menu.Item>
                         </Menu>
                     </Container>
@@ -81,3 +82,13 @@ export class MobileContainer extends Component {
 MobileContainer.propTypes = {
     children: PropTypes.node,
 }
+
+function mapState(state) {
+    const { authentication } = state;
+    const { profil } = authentication;
+    return { profil };
+}
+
+
+const connectedMobileContainer = connect(mapState)(MobileContainer);
+export { connectedMobileContainer as MobileContainer };

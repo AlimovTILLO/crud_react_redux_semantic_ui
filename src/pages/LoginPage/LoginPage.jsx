@@ -49,7 +49,7 @@ class LoginPage extends React.Component {
                                 <Segment stacked>
                                     <Form.Input icon='user' iconPosition='left' placeholder='Email' name='email' value={values.email} onChange={handleChange} error={errors.email} />
                                     <Form.Input icon='lock' iconPosition='left' type='password' name='password' value={values.password} placeholder='Password' onChange={handleChange} error={errors.password} />
-                                    <Button color='teal' fluid size='large' className="btn btn-primary" disabled={
+                                    <Button type="submit" color='teal' fluid size='large' className="btn btn-primary" disabled={
                                         (errors.email || !values.email) || (errors.password || !values.password)} >Login</Button>
 
                                 </Segment>

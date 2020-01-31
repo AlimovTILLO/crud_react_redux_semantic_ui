@@ -45,12 +45,12 @@ ResponsiveContainer.propTypes = {
 class UsersPage extends React.Component {
 
 
-    state = { deleteUserOpen: false, editUserOpen: false, createUserOpen: false, deletingUser: {}, editingUser: {}, }
+    state = { deleteUserOpen: false, editUserOpen: false, createUserOpen: false, deletingUser: {}, editingUser: {}, activePage: 1}
 
-    close = () => this.setState({ deleteUserOpen: false, editUserOpen: false, createUserOpen: false, fileUrl: '' })
+    close = () => this.setState({ deleteUserOpen: false, editUserOpen: false, createUserOpen: false, fileUrl: '' , filedata: null})
 
     componentDidMount() {
-        this.props.getUsers({ page: 1, per_page: 3 });
+        this.props.getUsers(1);
     }
 
     closeCreateConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
@@ -61,24 +61,32 @@ class UsersPage extends React.Component {
     }
     closeEditConfigShow = (closeOnEscape, closeOnDimmerClick, user) => () => {
         this.setState({
-            closeOnEscape, closeOnDimmerClick, editUserOpen: true, editingUser: user
+            closeOnEscape, closeOnDimmerClick, editUserOpen: true, editingUser: user, fileUrl: user.avatar,
         })
     }
 
     handlePaginationChange = (e, { activePage }) => {
-        this.props.getUsers({ page: activePage, per_page: 3 });
+        this.props.getUsers(activePage);
+        this.setState({activePage: activePage})
     }
 
-    handleFileChange = (e) =>  this.setState({ fileUrl: e.target.value})
+    handleFileChange = (e) =>  {
+        this.setState({ fileUrl: e.target.value, filedata: e.target.files[0]})
+    }
 
     handleDeleteUser = () => {
+        const { activePage, deletingUser } = this.state
+        console.log('activePage: ' + activePage)
         this.close()
-        this.props.deleteUser(this.state.deletingUser.id);
+        
+        this.props.deleteUser({id: deletingUser.id, page: activePage});
+        this.setState({activePage: activePage})
+
     }
 
     render() {
         const { users } = this.props;
-        const { deletingUser, editingUser, deleteUserOpen, editUserOpen, createUserOpen, closeOnEscape, closeOnDimmerClick, fileUrl } = this.state
+        const { deletingUser, editingUser, deleteUserOpen, editUserOpen, createUserOpen, closeOnEscape, closeOnDimmerClick, activePage, fileUrl, filedata } = this.state
         return (
             <ResponsiveContainer>
                 <Container style={{ margin: '3em 0em 0em', padding: '3em 0em', minHeight: 'calc(100vh - 150px)' }}>
@@ -110,7 +118,7 @@ class UsersPage extends React.Component {
                     }
                     <Segment floated='right' vertical>
                         
-                    <PaginationComponent activePage={users.pages && users.pages.page} totalPages={users.pages && users.pages.total_pages} onPageChange={this.handlePaginationChange} />
+                    <PaginationComponent activePage={activePage} totalPages={(users.pages && users.pages.total_pages) || ''} onPageChange={this.handlePaginationChange} />
                         </Segment>
                     <Modal
                         size='tiny'
@@ -126,15 +134,16 @@ class UsersPage extends React.Component {
                                 <Formik
                                     enableReinitialize={true}
                                     initialValues={{
-                                        first_name: "",
-                                        last_name: "",
+                                        first_name: "first_name",  //to be first_name: "", 
+                                        last_name: "last_name", //to be last_name: "",
                                         email: "",
                                         avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/hebertialmeida/128.jpg'
                                     }}
                                     validationSchema={validationSchema}
                                     onSubmit={values => {
                                         this.close()
-                                        this.props.createUser({ email: values.email, first_name: values.first_name, last_name: values.last_name, avatar: values.avatar });
+                                        this.props.createUser({ email: values.email, first_name: values.first_name, last_name: values.last_name, avatar: filedata}, activePage);
+                                        this.setState({activePage: activePage})
                                     }}
                                 >
                                     {({ handleSubmit, handleChange, values, errors }) => (
@@ -149,8 +158,8 @@ class UsersPage extends React.Component {
                                             </Form.Input>
 
                                             <Button
-                                                disabled={(errors.email || !values.email) || (errors.first_name || !values.first_name)}
-                                                type="button"
+                                                disabled={(errors.email || !values.email) || (errors.first_name || !values.first_name)  ? true : false}
+                                                type="submit"
                                                 onClick={handleSubmit}
                                                 positive
                                                 labelPosition='right'
@@ -183,7 +192,8 @@ class UsersPage extends React.Component {
                                     validationSchema={validationSchema}
                                     onSubmit={values => {
                                         this.close()
-                                        this.props.updateUser({ email: values.email, first_name: values.first_name, last_name: values.last_name, id: values.id });
+                                        this.props.updateUser({ email: values.email, first_name: values.first_name, last_name: values.last_name, avatar: filedata, id: values.id });
+                                        this.setState({activePage: activePage})
                                     }}
                                 >
                                     {({ handleSubmit, handleChange, values, errors }) => (
@@ -243,9 +253,8 @@ class UsersPage extends React.Component {
 }
 
 function mapState(state) {
-    const { users, authentication } = state;
-    const { profil } = authentication;
-    return { profil, users };
+    const { users } = state;
+    return { users };
 }
 
 const actionCreators = {
