@@ -42,7 +42,10 @@ ResponsiveContainer.propTypes = {
 }
 
 
+const profile = JSON.parse(localStorage.getItem('user'));
+
 class UsersPage extends React.Component {
+
 
 
     state = { deleteUserOpen: false, editUserOpen: false, createUserOpen: false, deletingUser: {}, editingUser: {}, activePage: 1 }
@@ -122,7 +125,7 @@ class UsersPage extends React.Component {
                                         <Card.Content extra>
                                             <div className='ui two buttons'>
                                                 <Button onClick={this.closeEditConfigShow(true, false, user)} basic color='green'>Edit</Button>
-                                                <Button onClick={this.closeDeleteConfigShow(true, false, user)} basic color='red'>Delete</Button>
+                                                <Button disabled={user.id === profile.user.id} onClick={this.closeDeleteConfigShow(true, false, user)} basic color='red'>Delete</Button>
                                             </div>
                                         </Card.Content>
                                     </Card>
