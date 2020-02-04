@@ -1,4 +1,4 @@
-import { productConstants } from '../constants';
+import { productConstants } from '../../constants';
 
 export function products(state = {}, action) {
   switch (action.type) {

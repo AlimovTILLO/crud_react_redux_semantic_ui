@@ -1,12 +1,8 @@
-import { userConstants } from '../constants';
-import { userService } from '../services';
-import { alertActions } from './';
-import { history } from '../helpers';
+import { userConstants } from '../../constants';
+import { usersService } from './service';
+import { alertActions } from '../../actions/alert.actions';
 
-export const userActions = {
-    login,
-    logout,
-    register,
+export const usersActions = {
     getAll,
     getById,
     create,
@@ -14,65 +10,15 @@ export const userActions = {
     delete: _delete
 };
 
-function login(email, password) {
-    return dispatch => {
-        dispatch(request({ email }));
-
-        userService.login(email, password)
-            .then(
-                user => {
-                    dispatch(success(user));
-                    history.push('/');
-                },
-                error => {
-                    dispatch(failure(error.toString()));
-                    dispatch(alertActions.error('Incorrect email or password'));
-                }
-            );
-    };
-
-    function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
-    function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
-    function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
-}
-
-function logout() {
-    userService.logout();
-    return { type: userConstants.LOGOUT };
-}
-
-function register(user) {
-    return dispatch => {
-        dispatch(request(user));
-
-        userService.register(user)
-            .then(
-                user => {
-                    dispatch(success());
-                    history.push('/login');
-                    dispatch(alertActions.success('Registration successful'));
-                },
-                error => {
-                    dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
-                }
-            );
-    };
-
-    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
-    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
-    function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
-}
 
 function create(user, page) {
     return async dispatch => {
         dispatch(request(user));
         try {
-            const { async } = await userService.create(user)
+            await usersService.create(user)
             dispatch(success(user));
             dispatch(getAll( page ))
             dispatch(alertActions.success('User successful created'));
-            console.log('async', async)
 
         } catch ({ response }) {
             dispatch(failure(response.data.email[0]));
@@ -89,7 +35,7 @@ function getAll(page) {
     return dispatch => {
         dispatch(request());
 
-        userService.getAll(page)
+        usersService.getAll(page)
             .then(
                 users => dispatch(success(users)),
                 error => dispatch(failure(error.toString()))
@@ -105,7 +51,7 @@ function getById(id) {
     return dispatch => {
         dispatch(request());
 
-        userService.getById(id)
+        usersService.getById(id)
             .then(
                 user => dispatch(success(user)),
                 error => dispatch(failure(error.toString()))
@@ -120,7 +66,7 @@ function getById(id) {
 function update(user) {
     return dispatch => {
         dispatch(request(user));
-        userService.update(user, user.id)
+        usersService.update(user, user.id)
             .then(
                 user => {
                     dispatch(success(user));
@@ -140,12 +86,11 @@ function update(user) {
 
 
 function _delete(data) {
-    console.log(JSON.stringify(data) + 'asssssssssssssssssssssssssssssss')
     return dispatch => {
         dispatch(request(data.id));
 
 
-        userService.delete(data.id)
+        usersService.delete(data.id)
             .then(
                 user => {
                     dispatch(success(data.id));

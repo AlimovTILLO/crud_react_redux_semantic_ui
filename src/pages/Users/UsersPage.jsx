@@ -15,12 +15,13 @@ import {
     Dimmer,
     Label
 } from 'semantic-ui-react'
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { userActions } from '../../actions';
+
+
+import './style.css'
 import { PaginationComponent } from '../../components/PaginationComponent'
-import PropTypes from 'prop-types'
 import { ResponsiveContainer } from '../../components/ResponsiveContainer'
 
 
@@ -44,12 +45,10 @@ ResponsiveContainer.propTypes = {
 
 const profile = JSON.parse(localStorage.getItem('user'));
 
-class UsersPage extends React.Component {
 
 
-
+export class UsersPage extends React.Component {
     state = { deleteUserOpen: false, editUserOpen: false, createUserOpen: false, deletingUser: {}, editingUser: {}, activePage: 1 }
-
     close = () => this.setState({ deleteUserOpen: false, editUserOpen: false, createUserOpen: false, fileUrl: '', filedata: null })
 
     componentDidMount() {
@@ -106,7 +105,7 @@ class UsersPage extends React.Component {
         const { deletingUser, editingUser, deleteUserOpen, editUserOpen, createUserOpen, closeOnEscape, closeOnDimmerClick, activePage, fileUrl, filedata } = this.state
         return (
             <ResponsiveContainer>
-                <Container style={{ margin: '3em 0em 0em', padding: '3em 0em', minHeight: 'calc(100vh - 150px)' }}>
+                <Container className="user-container">
                     <Button onClick={this.closeCreateConfigShow(true, false)} icon labelPosition='left' floated="right">
                         <Icon name='user plus' />Add user</Button>
                     <Header>Users:</Header>
@@ -151,10 +150,9 @@ class UsersPage extends React.Component {
                                 <Formik
                                     enableReinitialize={true}
                                     initialValues={{
-                                        first_name: "first_name",  //to be first_name: "", 
-                                        last_name: "last_name", //to be last_name: "",
-                                        email: "",
-                                        avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/hebertialmeida/128.jpg'
+                                        first_name: "",
+                                        last_name: "",
+                                        email: ""
                                     }}
                                     validationSchema={validationSchema}
                                     onSubmit={values => {
@@ -269,18 +267,3 @@ class UsersPage extends React.Component {
     }
 }
 
-function mapState(state) {
-    const { users } = state;
-    return { users };
-}
-
-const actionCreators = {
-    getUsers: userActions.getAll,
-    getUser: userActions.getById,
-    deleteUser: userActions.delete,
-    updateUser: userActions.update,
-    createUser: userActions.create
-}
-
-const connectedHomePage = connect(mapState, actionCreators)(UsersPage);
-export { connectedHomePage as UsersPage };

@@ -1,5 +1,4 @@
-import { HTTP } from './api'
-// import { authHeader } from '../helpers';
+import { HTTP } from '../../services/api'
 
 export const productService = {
     getAll

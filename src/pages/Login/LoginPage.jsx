@@ -1,8 +1,6 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { Dimmer, Loader, Segment, Form, Button, Grid, Header } from 'semantic-ui-react'
-import { userActions } from '../../actions';
 import { Formik } from "formik";
 import * as Yup from "yup";
 
@@ -16,7 +14,7 @@ const validationSchema = Yup.object().shape({
 })
 
 
-class LoginPage extends React.Component {
+export class LoginPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -70,15 +68,3 @@ class LoginPage extends React.Component {
     }
 }
 
-function mapState(state) {
-    const { loggingIn } = state.authentication;
-    return { loggingIn };
-}
-
-const actionCreators = {
-    login: userActions.login,
-    logout: userActions.logout
-};
-
-const connectedLoginPage = connect(mapState, actionCreators)(LoginPage);
-export { connectedLoginPage as LoginPage };

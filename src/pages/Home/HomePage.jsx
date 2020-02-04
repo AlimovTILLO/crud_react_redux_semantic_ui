@@ -1,11 +1,13 @@
 import React from 'react'
 import _ from 'lodash'
 import { Container, Table, Header, Input, Select, Button, Dimmer, Loader, Segment } from 'semantic-ui-react'
-import { connect } from 'react-redux';
-import { productActions } from '../../actions';
+import PropTypes from 'prop-types'
+
+
+import './style.css'
 import { PaginationComponent } from '../../components/PaginationComponent'
 import { ResponsiveContainer } from '../../components/ResponsiveContainer'
-import PropTypes from 'prop-types'
+
 
 ResponsiveContainer.propTypes = {
     children: PropTypes.node,
@@ -16,7 +18,7 @@ const options = [
     { key: 'year', text: 'Year', value: 'year' },
 ]
 
-class HomePage extends React.Component {
+export class HomePage extends React.Component {
 
     state = {
         column: null,
@@ -78,7 +80,7 @@ class HomePage extends React.Component {
         const filteredList = list.length ? list.filter(obj => obj[selectValue].toString().toLowerCase().startsWith(searchValue.toLowerCase())) : []
         return (
             <ResponsiveContainer>
-                <Container style={{ margin: '3em 0em 0em', padding: '3em 0em', minHeight: 'calc(100vh - 150px)' }}>
+                <Container className="product-container">
 
                     <Input type='text' placeholder='Search...' action onChange={this.handleInputChange}>
                         <input />
@@ -115,7 +117,6 @@ class HomePage extends React.Component {
                             }
                             {
                                 filteredList.map(({ id, name, year, color, pantone_value }) =>
-                                    // _.map(data, ({ id, name, year, color, pantone_value }) =>
                                     <Table.Row key={id}>
                                         <Table.Cell>{name}</Table.Cell>
                                         <Table.Cell>{year}</Table.Cell>
@@ -126,7 +127,10 @@ class HomePage extends React.Component {
                         </Table.Body>
                     </Table>
                     <Segment floated='right' vertical>
-                        <PaginationComponent activePage={(products.pages && products.pages.page) || ''} totalPages={(products.pages && products.pages.total_pages) || ''} onPageChange={this.handlePaginationChange} />
+                        <PaginationComponent 
+                        activePage={(products.pages && products.pages.page) || ''} 
+                        totalPages={(products.pages && products.pages.total_pages) || ''} 
+                        onPageChange={this.handlePaginationChange} />
                     </Segment>
                 </Container>
             </ResponsiveContainer>
@@ -134,13 +138,4 @@ class HomePage extends React.Component {
     }
 }
 
-function mapState(state) {
-    const { products, loading } = state;
-    return { products, loading };
-}
 
-const actionCreators = {
-    getProducts: productActions.getAll
-}
-const connectedHomePage = connect(mapState, actionCreators)(HomePage);
-export { connectedHomePage as HomePage };

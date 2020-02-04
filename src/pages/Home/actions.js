@@ -1,5 +1,5 @@
-import { productConstants } from '../constants';
-import { productService } from '../services';
+import { productConstants } from '../../constants';
+import { productService } from './service';
 
 export const productActions = {
     getAll,

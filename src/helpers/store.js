@@ -12,7 +12,6 @@ export const store = createStore(
             thunkMiddleware,
             loggerMiddleware
         ),
-        // other store enhancers if any
       ),
     
 );

@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { history } from '../helpers';
 import { alertActions } from '../actions';
 import { PrivateRoute } from '../components';
-import { HomePage } from '../pages/HomePage';
-import { LoginPage } from '../pages/LoginPage';
-import { RegisterPage } from '../pages/RegisterPage';
-import { UsersPage } from '../pages/UsersPage'
+import { HomePage } from '../pages/Home';
+import { LoginPage } from '../pages/Login';
+import { RegisterPage } from '../pages/Register';
+import { UsersPage } from '../pages/Users'
 import { store } from 'react-notifications-component';
 
 class App extends React.Component {

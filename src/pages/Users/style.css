@@ -1,0 +1,5 @@
+.user-container {
+    margin: 3em 0em 0em;
+    padding: 3em 0em;
+    min-height: calc(100vh - 150px);
+}
