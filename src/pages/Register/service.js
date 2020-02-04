@@ -7,7 +7,7 @@ export const registerService = {
 
 function register(user) {
 
-    return HTTP.post('/api/register', user)
+    return HTTP.post('/api/register/', user)
         .then(handleResponse);
 }
 
