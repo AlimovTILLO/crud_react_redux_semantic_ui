@@ -1,12 +1,12 @@
 import { Pagination } from 'semantic-ui-react'
 import React from 'react'
-import PropTypes from 'prop-types'
+import { number, func } from 'prop-types'
 
 export class PaginationComponent extends React.Component {
     static propTypes = {
-        activePage: PropTypes.number,
-        totalPages: PropTypes.number,
-        onPageChange: PropTypes.func,
+        activePage: number,
+        totalPages: number,
+        onPageChange: func,
     }
 
 

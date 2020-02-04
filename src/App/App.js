@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router';
-import PropTypes from 'prop-types'
+import { object } from 'prop-types'
 import { store } from 'react-notifications-component';
 
 import { history } from '../helpers';
@@ -12,7 +12,7 @@ import { UsersPage } from '../pages/Users'
 
 export class App extends React.Component {
     static propTypes = {
-        alert: PropTypes.object,
+        alert: object,
     }
     constructor(props) {
         super(props);

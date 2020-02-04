@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { node, object } from 'prop-types'
 import { Link } from 'react-router-dom';
 import { history } from '../helpers';
 import {
@@ -22,8 +22,8 @@ const getWidth = () => {
 
 class MobileContainer extends Component {
     static propTypes = {
-        children: PropTypes.node,
-        profil: PropTypes.object,
+        children: node,
+        profil: object,
     }
 
     state = { sidebarOpened: false }

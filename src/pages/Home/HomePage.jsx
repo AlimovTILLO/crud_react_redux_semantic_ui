@@ -11,7 +11,7 @@ import {
     Loader,
     Segment
 } from 'semantic-ui-react'
-import PropTypes from 'prop-types'
+import { object, bool, func } from 'prop-types'
 
 import './style.css'
 import { PaginationComponent } from '../../components/PaginationComponent'
@@ -24,10 +24,10 @@ const options = [
 
 export class HomePage extends React.Component {
     static propTypes = {
-        products: PropTypes.object,
-        loading: PropTypes.bool,
-        source: PropTypes.object,
-        getProducts: PropTypes.func,
+        products: object,
+        loading: bool,
+        source: object,
+        getProducts: func,
     }
 
     state = {

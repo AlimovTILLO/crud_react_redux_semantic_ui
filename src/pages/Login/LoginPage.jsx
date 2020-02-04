@@ -11,16 +11,16 @@ import {
     Message
 } from 'semantic-ui-react'
 import { Formik } from "formik";
-import PropTypes from 'prop-types'
+import { bool, func } from 'prop-types'
 
 import { userValidationSchema } from '../../helpers/validations'
 import './style.css'
 
 export class LoginPage extends React.Component {
     static propTypes = {
-        loggingIn: PropTypes.bool,
-        login: PropTypes.func,
-        logout: PropTypes.func,
+        loggingIn: bool,
+        login: func,
+        logout: func,
     }
     constructor(props) {
         super(props);

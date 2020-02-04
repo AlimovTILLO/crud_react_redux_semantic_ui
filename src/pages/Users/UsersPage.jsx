@@ -15,7 +15,7 @@ import {
     Dimmer,
     Label
 } from 'semantic-ui-react'
-import PropTypes from 'prop-types'
+import { object, func } from 'prop-types'
 import { Formik } from "formik";
 
 import './style.css'
@@ -28,12 +28,12 @@ import { ResponsiveContainer } from '../../components/ResponsiveContainer'
 
 export class UsersPage extends React.Component {
     static propTypes = {
-        users: PropTypes.object,
-        profil: PropTypes.object,
-        getUsers: PropTypes.func,
-        deleteUser: PropTypes.func,
-        createUser: PropTypes.func,
-        updateUser: PropTypes.func,
+        users: object,
+        profil: object,
+        getUsers: func,
+        deleteUser: func,
+        createUser: func,
+        updateUser: func,
     }
     state = { deleteUserOpen: false, editUserOpen: false, createUserOpen: false, deletingUser: {}, editingUser: {}, activePage: 1 }
     close = () => this.setState({ deleteUserOpen: false, editUserOpen: false, createUserOpen: false, fileUrl: '', filedata: null })

@@ -10,16 +10,16 @@ import {
     Header
 } from 'semantic-ui-react'
 import { Formik } from "formik";
-import PropTypes from 'prop-types'
+import { bool, func } from 'prop-types'
 
-import {userValidationSchema } from '../../helpers/validations'
+import { userValidationSchema } from '../../helpers/validations'
 import './style.css'
 
 
 export class RegisterPage extends React.Component {
     static propTypes = {
-        registering: PropTypes.bool,
-        register: PropTypes.func,
+        registering: bool,
+        register: func,
     }
 
     render() {
