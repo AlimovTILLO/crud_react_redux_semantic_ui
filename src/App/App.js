@@ -1,21 +1,20 @@
 import React from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
+import { store } from 'react-notifications-component';
+
 import { history } from '../helpers';
-import { alertActions } from '../actions';
 import { PrivateRoute } from '../components';
 import { HomePage } from '../pages/Home';
 import { LoginPage } from '../pages/Login';
 import { RegisterPage } from '../pages/Register';
 import { UsersPage } from '../pages/Users'
-import { store } from 'react-notifications-component';
 
-class App extends React.Component {
+export class App extends React.Component {
     constructor(props) {
         super(props);
 
         history.listen((location, action) => {
-            // clear alert on location change
             this.props.clearAlerts();
         });
     }
@@ -28,7 +27,6 @@ class App extends React.Component {
                         title: `${alert.type}`,
                         message: `${alert.message}`,
                         type: `${alert.type}`,
-                        // insert: "top",
                         container: "top-right",
                         animationIn: ["animated", "fadeIn"],
                         animationOut: ["animated", "fadeOut"],
@@ -52,14 +50,6 @@ class App extends React.Component {
     }
 }
 
-function mapState(state) {
-    const { alert } = state;
-    return { alert };
+UsersPage.propTypes = {
+    alert: PropTypes.object,
 }
-
-const actionCreators = {
-    clearAlerts: alertActions.clear
-};
-
-const connectedApp = connect(mapState, actionCreators)(App);
-export { connectedApp as App };

@@ -50,8 +50,16 @@ class MobileContainer extends Component {
                     vertical
                     visible={sidebarOpened}
                 >
-                    <Menu.Item name='products' url='' active={activeItem === 'products'} onClick={this.handleItemClick}>Products</Menu.Item>
-                    <Menu.Item name='users' url='users' active={activeItem === 'users'} onClick={this.handleItemClick}>Users</Menu.Item>
+                    <Menu.Item
+                        name='products'
+                        url=''
+                        active={activeItem === 'products'}
+                        onClick={this.handleItemClick}>Products</Menu.Item>
+                    <Menu.Item
+                        name='users'
+                        url='users'
+                        active={activeItem === 'users'}
+                        onClick={this.handleItemClick}>Users</Menu.Item>
                     <Menu.Item position='right'>
                         <Link to="/login">Logout</Link>
                     </Menu.Item>
@@ -81,6 +89,7 @@ class MobileContainer extends Component {
 
 MobileContainer.propTypes = {
     children: PropTypes.node,
+    profil: PropTypes.object,
 }
 
 function mapState(state) {

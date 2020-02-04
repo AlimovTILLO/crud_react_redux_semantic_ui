@@ -1,20 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Dimmer, Loader, Segment, Form, Button, Grid, Header } from 'semantic-ui-react'
+import {
+    Dimmer,
+    Loader,
+    Segment,
+    Form,
+    Button,
+    Grid,
+    Header
+} from 'semantic-ui-react'
 import { Formik } from "formik";
-import * as Yup from "yup";
+import PropTypes from 'prop-types'
 
-
+import {userValidationSchema } from '../../helpers/validations'
 import './style.css'
-
-const validationSchema = Yup.object().shape({
-    email: Yup.string()
-        .email("Email недействителен")
-        .required("Требуется электронная почта"),
-    password: Yup.string()
-        .min(10, "Пароль должен содержать не менее 10 символов")
-        .required("Необходим пароль")
-})
 
 
 export class RegisterPage extends React.Component {
@@ -28,7 +27,7 @@ export class RegisterPage extends React.Component {
                     password: "",
                     submitted: false
                 }}
-                validationSchema={validationSchema}
+                validationSchema={userValidationSchema}
                 onSubmit={values => {
                     this.setState({ submitted: true });
                     if (values.email && values.password) {
@@ -42,10 +41,30 @@ export class RegisterPage extends React.Component {
                             <Header as='h2' color='teal' textAlign='center'>Register</Header>
                             <Form onSubmit={handleSubmit}>
                                 <Segment stacked>
-                                    <Form.Input icon='user' iconPosition='left' placeholder='Email' name='email' value={values.email} onChange={handleChange} error={errors.email} />
-                                    <Form.Input icon='lock' iconPosition='left' type='password' name='password' value={values.password} placeholder='Password' onChange={handleChange} error={errors.password} />
-                                    <Button type="submit" color='teal' fluid size='large' className="btn btn-primary" disabled={
-                                        (errors.email || !values.email) || (errors.password || !values.password) ? true : false}>Register</Button>
+                                    <Form.Input
+                                        icon='user'
+                                        iconPosition='left'
+                                        placeholder='Email'
+                                        name='email'
+                                        value={values.email}
+                                        onChange={handleChange}
+                                        error={errors.email} />
+                                    <Form.Input
+                                        icon='lock'
+                                        iconPosition='left'
+                                        type='password'
+                                        name='password'
+                                        value={values.password}
+                                        placeholder='Password'
+                                        onChange={handleChange}
+                                        error={errors.password} />
+                                    <Button
+                                        type="submit"
+                                        color='teal'
+                                        fluid size='large'
+                                        className="btn btn-primary"
+                                        disabled={(errors.email || !values.email) || (errors.password || !values.password) ? true : false}>Register</Button>
+
                                     {registering &&
                                         <Dimmer active inverted>
                                             <Loader size='large'>Loading</Loader>
@@ -60,4 +79,10 @@ export class RegisterPage extends React.Component {
             </Formik>
         );
     }
+}
+
+
+RegisterPage.propTypes = {
+    registering: PropTypes.bool,
+    register: PropTypes.func,
 }

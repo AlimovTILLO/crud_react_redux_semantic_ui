@@ -17,30 +17,14 @@ import {
 } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { Formik } from "formik";
-import * as Yup from "yup";
-
 
 import './style.css'
+import { usersValidationSchema } from '../../helpers/validations'
 import { PaginationComponent } from '../../components/PaginationComponent'
 import { ResponsiveContainer } from '../../components/ResponsiveContainer'
 
 
-const validationSchema = Yup.object().shape({
-    email: Yup.string()
-        .email("Email недействителен")
-        .required("Требуется электронная почта"),
-    first_name: Yup.string()
-        .min(2, "FirstName должен содержать не менее 2 символов")
-        .required("Необходим FirstName"),
-    last_name: Yup.string()
-        .min(2, "LastName должен содержать не менее 2 символов")
-        .required("Необходим LastName")
-})
 
-
-ResponsiveContainer.propTypes = {
-    children: PropTypes.node,
-}
 
 export class UsersPage extends React.Component {
     state = { deleteUserOpen: false, editUserOpen: false, createUserOpen: false, deletingUser: {}, editingUser: {}, activePage: 1 }
@@ -72,9 +56,7 @@ export class UsersPage extends React.Component {
     }
 
     handleDeleteUser = () => {
-
         this.close()
-
         const { activePage, deletingUser } = this.state
         const { users } = this.props;
 
@@ -90,9 +72,6 @@ export class UsersPage extends React.Component {
             this.props.deleteUser({ id: deletingUser.id, page: activePage });
             this.setState({ activePage: activePage })
         }
-
-
-
     }
 
     render() {
@@ -118,8 +97,15 @@ export class UsersPage extends React.Component {
                                         </Card.Content>
                                         <Card.Content extra>
                                             <div className='ui two buttons'>
-                                                <Button onClick={this.closeEditConfigShow(true, false, user)} basic color='green'>Edit</Button>
-                                                <Button disabled={user.id === (profil.user.id) ? true : false} onClick={this.closeDeleteConfigShow(true, false, user)} basic color='red'>Delete</Button>
+                                                <Button
+                                                    onClick={this.closeEditConfigShow(true, false, user)}
+                                                    basic
+                                                    color='green'>Edit</Button>
+                                                <Button
+                                                    disabled={user.id === (profil.user.id) ? true : false}
+                                                    onClick={this.closeDeleteConfigShow(true, false, user)}
+                                                    basic
+                                                    color='red'>Delete</Button>
                                             </div>
                                         </Card.Content>
                                     </Card>
@@ -129,7 +115,7 @@ export class UsersPage extends React.Component {
                     }
                     <Segment floated='right' vertical>
 
-                        <PaginationComponent activePage={activePage} totalPages={(users.pages && users.pages.total_pages) || ''} onPageChange={this.handlePaginationChange} />
+                        <PaginationComponent activePage={activePage} totalPages={(users.pages && users.pages.total_pages) || 1} onPageChange={this.handlePaginationChange} />
                     </Segment>
                     <Modal
                         size='tiny'
@@ -149,7 +135,7 @@ export class UsersPage extends React.Component {
                                         last_name: "",
                                         email: ""
                                     }}
-                                    validationSchema={validationSchema}
+                                    validationSchema={usersValidationSchema}
                                     onSubmit={values => {
                                         this.close()
                                         this.props.createUser({ email: values.email, first_name: values.first_name, last_name: values.last_name, avatar: filedata }, activePage);
@@ -158,13 +144,45 @@ export class UsersPage extends React.Component {
                                 >
                                     {({ handleSubmit, handleChange, values, errors }) => (
                                         <Form onSubmit={handleSubmit}>
-                                            <Form.Input label='Email *' placeholder='Email' name='email' value={values.email} onChange={handleChange} error={errors.email} />
-                                            <Form.Input label='first_name *' placeholder='first_name' name='first_name' value={values.first_name} onChange={handleChange} error={errors.first_name} />
-                                            <Form.Input label='last_name *' placeholder='last_name' name='last_name' value={values.last_name} onChange={handleChange} error={errors.last_name} />
+                                            <Form.Input
+                                                label='Email *'
+                                                placeholder='Email'
+                                                name='email'
+                                                value={values.email}
+                                                onChange={handleChange}
+                                                error={errors.email} />
+                                            <Form.Input
+                                                label='first_name *'
+                                                placeholder='first_name'
+                                                name='first_name'
+                                                value={values.first_name}
+                                                onChange={handleChange}
+                                                error={errors.first_name} />
+                                            <Form.Input
+                                                label='last_name *'
+                                                placeholder='last_name'
+                                                name='last_name'
+                                                value={values.last_name}
+                                                onChange={handleChange}
+                                                error={errors.last_name} />
                                             <Form.Input >
-                                                <input type="text" placeholder="Select file" disabled value={fileUrl} />
-                                                <input hidden id="file" type="file" accept="image/x-png,image/gif,image/jpeg" onChange={this.handleFileChange} />
-                                                <Label width="4" as="label" htmlFor="file" size="big"><Icon name="file" />Select</Label>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Select file"
+                                                    disabled
+                                                    value={fileUrl} />
+                                                <input
+                                                    hidden
+                                                    id="file"
+                                                    type="file"
+                                                    accept="image/x-png,image/gif,image/jpeg"
+                                                    onChange={this.handleFileChange} />
+                                                <Label
+                                                    width="4"
+                                                    as="label"
+                                                    htmlFor="file"
+                                                    ize="big">
+                                                    <Icon name="file" />Select</Label>
                                             </Form.Input>
 
                                             <Button
@@ -199,7 +217,7 @@ export class UsersPage extends React.Component {
                                 <Formik
                                     enableReinitialize={true}
                                     initialValues={editingUser}
-                                    validationSchema={validationSchema}
+                                    validationSchema={usersValidationSchema}
                                     onSubmit={values => {
                                         this.close()
                                         this.props.updateUser({ email: values.email, first_name: values.first_name, last_name: values.last_name, avatar: filedata, id: values.id });
@@ -208,13 +226,45 @@ export class UsersPage extends React.Component {
                                 >
                                     {({ handleSubmit, handleChange, values, errors }) => (
                                         <Form onSubmit={handleSubmit}>
-                                            <Form.Input label='Email *' placeholder='Email' name='email' value={values.email} onChange={handleChange} error={errors.email} />
-                                            <Form.Input label='FirstName *' placeholder='first_name' name='first_name' value={values.first_name} onChange={handleChange} error={errors.first_name} />
-                                            <Form.Input label='LastName *' placeholder='last_name' name='last_name' value={values.last_name} onChange={handleChange} error={errors.last_name} />
+                                            <Form.Input
+                                                label='Email *'
+                                                placeholder='Email'
+                                                name='email'
+                                                value={values.email}
+                                                onChange={handleChange}
+                                                error={errors.email} />
+                                            <Form.Input
+                                                label='FirstName *'
+                                                placeholder='first_name'
+                                                name='first_name'
+                                                value={values.first_name}
+                                                onChange={handleChange}
+                                                error={errors.first_name} />
+                                            <Form.Input
+                                                label='LastName *'
+                                                placeholder='last_name'
+                                                name='last_name'
+                                                value={values.last_name}
+                                                onChange={handleChange}
+                                                error={errors.last_name} />
                                             <Form.Input >
-                                                <input type="text" placeholder="Select file" disabled value={fileUrl} />
-                                                <input hidden id="file" type="file" accept="image/x-png,image/gif,image/jpeg" onChange={this.handleFileChange} />
-                                                <Label width="4" as="label" htmlFor="file" size="big"><Icon name="file" />Select</Label>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Select file"
+                                                    disabled
+                                                    value={fileUrl} />
+                                                <input
+                                                    hidden
+                                                    id="file"
+                                                    type="file"
+                                                    accept="image/x-png,image/gif,image/jpeg"
+                                                    onChange={this.handleFileChange} />
+                                                <Label
+                                                    width="4"
+                                                    as="label"
+                                                    htmlFor="file"
+                                                    size="big">
+                                                    <Icon name="file" />Select</Label>
                                             </Form.Input>
                                             <Button
                                                 disabled={(errors.email || !values.email) || (errors.first_name || !values.first_name)}
@@ -262,3 +312,11 @@ export class UsersPage extends React.Component {
     }
 }
 
+UsersPage.propTypes = {
+    users: PropTypes.object,
+    profil: PropTypes.object,
+    getUsers: PropTypes.func,
+    deleteUser: PropTypes.func,
+    createUser: PropTypes.func,
+    updateUser: PropTypes.func,
+}

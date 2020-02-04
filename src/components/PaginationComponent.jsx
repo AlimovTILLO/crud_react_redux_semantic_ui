@@ -1,5 +1,6 @@
 import { Pagination } from 'semantic-ui-react'
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export class PaginationComponent extends React.Component {
 
@@ -20,4 +21,10 @@ export class PaginationComponent extends React.Component {
         />
         );
     }
+}
+
+PaginationComponent.propTypes = {
+    activePage: PropTypes.number,
+    totalPages: PropTypes.number,
+    onPageChange: PropTypes.func,
 }

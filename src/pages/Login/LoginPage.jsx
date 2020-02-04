@@ -1,21 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Dimmer, Loader, Segment, Form, Button, Grid, Header, Message } from 'semantic-ui-react'
+import {
+    Dimmer,
+    Loader,
+    Segment,
+    Form,
+    Button,
+    Grid,
+    Header,
+    Message
+} from 'semantic-ui-react'
 import { Formik } from "formik";
-import * as Yup from "yup";
+import PropTypes from 'prop-types'
 
-
+import {userValidationSchema } from '../../helpers/validations'
 import './style.css'
-
-const validationSchema = Yup.object().shape({
-    email: Yup.string()
-        .email("Email недействителен")
-        .required("Требуется электронная почта"),
-    password: Yup.string()
-        .min(10, "Пароль должен содержать не менее 10 символов")
-        .required("Необходим пароль")
-})
-
 
 export class LoginPage extends React.Component {
     constructor(props) {
@@ -33,7 +32,7 @@ export class LoginPage extends React.Component {
                     password: "",
                     submitted: false
                 }}
-                validationSchema={validationSchema}
+                validationSchema={userValidationSchema}
                 onSubmit={values => {
                     this.setState({ submitted: true })
                     if (values.email && values.password) {
@@ -48,10 +47,29 @@ export class LoginPage extends React.Component {
                             <Header as='h2' color='teal' textAlign='center'>Log-in to the system</Header>
                             <Form onSubmit={handleSubmit}>
                                 <Segment stacked>
-                                    <Form.Input icon='user' iconPosition='left' placeholder='Email' name='email' value={values.email} onChange={handleChange} error={errors.email} />
-                                    <Form.Input icon='lock' iconPosition='left' type='password' name='password' value={values.password} placeholder='Password' onChange={handleChange} error={errors.password} />
-                                    <Button type="submit" color='teal' fluid size='large' className="btn btn-primary" disabled={
-                                        (errors.email || !values.email) || (errors.password || !values.password) ? true : false} >Login</Button>
+                                    <Form.Input
+                                        icon='user'
+                                        iconPosition='left'
+                                        placeholder='Email'
+                                        name='email'
+                                        value={values.email}
+                                        onChange={handleChange}
+                                        error={errors.email} />
+                                    <Form.Input
+                                        icon='lock'
+                                        iconPosition='left'
+                                        type='password'
+                                        name='password'
+                                        value={values.password}
+                                        placeholder='Password'
+                                        onChange={handleChange}
+                                        error={errors.password} />
+                                    <Button
+                                        type="submit"
+                                        color='teal'
+                                        fluid size='large'
+                                        className="btn btn-primary"
+                                        disabled={(errors.email || !values.email) || (errors.password || !values.password) ? true : false} >Login</Button>
 
                                 </Segment>
                             </Form>
@@ -71,3 +89,9 @@ export class LoginPage extends React.Component {
     }
 }
 
+
+LoginPage.propTypes = {
+    loggingIn: PropTypes.bool,
+    login: PropTypes.func,
+    logout: PropTypes.func,
+}

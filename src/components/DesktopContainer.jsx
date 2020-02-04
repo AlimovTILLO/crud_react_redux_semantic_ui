@@ -25,7 +25,7 @@ class DesktopContainer extends Component {
     }
 
     render() {
-        const { children , profil } = this.props
+        const { children, profil } = this.props
         const { activeItem } = this.state
         return (
             <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
@@ -35,8 +35,16 @@ class DesktopContainer extends Component {
                     size='large'
                 >
                     <Container>
-                        <Menu.Item name='products' url='' active={activeItem === 'products'} onClick={this.handleItemClick}>Products</Menu.Item>
-                        <Menu.Item name='users' url='users' active={activeItem === 'users'} onClick={this.handleItemClick}>Users</Menu.Item>
+                        <Menu.Item
+                            name='products'
+                            url=''
+                            active={activeItem === 'products'}
+                            onClick={this.handleItemClick}>Products</Menu.Item>
+                        <Menu.Item
+                            name='users'
+                            url='users'
+                            active={activeItem === 'users'}
+                            onClick={this.handleItemClick}>Users</Menu.Item>
                         <Menu.Item position='right'>
                             <Menu.Item position='right'>{profil.user.email}</Menu.Item>
                             <Link to="/login">Logout</Link>
@@ -52,6 +60,7 @@ class DesktopContainer extends Component {
 
 DesktopContainer.propTypes = {
     children: PropTypes.node,
+    profil: PropTypes.object,
 }
 
 
