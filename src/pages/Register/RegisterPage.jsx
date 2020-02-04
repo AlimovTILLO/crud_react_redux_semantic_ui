@@ -5,6 +5,8 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 
 
+import './style.css'
+
 const validationSchema = Yup.object().shape({
     email: Yup.string()
         .email("Email недействителен")
@@ -35,15 +37,15 @@ export class RegisterPage extends React.Component {
                 }}
             >
                 {({ handleSubmit, handleChange, values, errors }) => (
-                    <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
-                        <Grid.Column style={{ maxWidth: 450 }}>
+                    <Grid textAlign='center' className='main-grid' verticalAlign='middle'>
+                        <Grid.Column className='main-grid__column'>
                             <Header as='h2' color='teal' textAlign='center'>Register</Header>
                             <Form onSubmit={handleSubmit}>
                                 <Segment stacked>
                                     <Form.Input icon='user' iconPosition='left' placeholder='Email' name='email' value={values.email} onChange={handleChange} error={errors.email} />
                                     <Form.Input icon='lock' iconPosition='left' type='password' name='password' value={values.password} placeholder='Password' onChange={handleChange} error={errors.password} />
                                     <Button type="submit" color='teal' fluid size='large' className="btn btn-primary" disabled={
-                                        (errors.email || !values.email) || (errors.password || !values.password)}>Register</Button>
+                                        (errors.email || !values.email) || (errors.password || !values.password) ? true : false}>Register</Button>
                                     {registering &&
                                         <Dimmer active inverted>
                                             <Loader size='large'>Loading</Loader>

@@ -1,0 +1,8 @@
+.main-grid {
+    height: 100vh
+}
+
+
+.main-grid__column {
+    max-width: 450px
+}

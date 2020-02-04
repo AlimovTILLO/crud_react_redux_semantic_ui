@@ -42,11 +42,6 @@ ResponsiveContainer.propTypes = {
     children: PropTypes.node,
 }
 
-
-const profile = JSON.parse(localStorage.getItem('user'));
-
-
-
 export class UsersPage extends React.Component {
     state = { deleteUserOpen: false, editUserOpen: false, createUserOpen: false, deletingUser: {}, editingUser: {}, activePage: 1 }
     close = () => this.setState({ deleteUserOpen: false, editUserOpen: false, createUserOpen: false, fileUrl: '', filedata: null })
@@ -101,7 +96,7 @@ export class UsersPage extends React.Component {
     }
 
     render() {
-        const { users } = this.props;
+        const { users, profil } = this.props;
         const { deletingUser, editingUser, deleteUserOpen, editUserOpen, createUserOpen, closeOnEscape, closeOnDimmerClick, activePage, fileUrl, filedata } = this.state
         return (
             <ResponsiveContainer>
@@ -124,7 +119,7 @@ export class UsersPage extends React.Component {
                                         <Card.Content extra>
                                             <div className='ui two buttons'>
                                                 <Button onClick={this.closeEditConfigShow(true, false, user)} basic color='green'>Edit</Button>
-                                                <Button disabled={user.id === profile.user.id} onClick={this.closeDeleteConfigShow(true, false, user)} basic color='red'>Delete</Button>
+                                                <Button disabled={user.id === (profil.user.id) ? true : false} onClick={this.closeDeleteConfigShow(true, false, user)} basic color='red'>Delete</Button>
                                             </div>
                                         </Card.Content>
                                     </Card>

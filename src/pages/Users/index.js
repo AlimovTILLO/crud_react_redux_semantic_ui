@@ -5,9 +5,11 @@ import { usersActions } from './actions';
 import { UsersPage } from './UsersPage';
 
 function mapState(state) {
-    const { users } = state;
-    return { users };
+    const { users, authentication } = state;
+    const { profil } = authentication;
+    return { users, profil };
 }
+
 
 const actionCreators = {
     getUsers: usersActions.getAll,
