@@ -21,6 +21,10 @@ const getWidth = () => {
 
 
 class MobileContainer extends Component {
+    static propTypes = {
+        children: PropTypes.node,
+        profil: PropTypes.object,
+    }
 
     state = { sidebarOpened: false }
 
@@ -87,17 +91,11 @@ class MobileContainer extends Component {
     }
 }
 
-MobileContainer.propTypes = {
-    children: PropTypes.node,
-    profil: PropTypes.object,
-}
-
 function mapState(state) {
     const { authentication } = state;
     const { profil } = authentication;
     return { profil };
 }
-
 
 const connectedMobileContainer = connect(mapState)(MobileContainer);
 export { connectedMobileContainer as MobileContainer };

@@ -27,6 +27,14 @@ import { ResponsiveContainer } from '../../components/ResponsiveContainer'
 
 
 export class UsersPage extends React.Component {
+    static propTypes = {
+        users: PropTypes.object,
+        profil: PropTypes.object,
+        getUsers: PropTypes.func,
+        deleteUser: PropTypes.func,
+        createUser: PropTypes.func,
+        updateUser: PropTypes.func,
+    }
     state = { deleteUserOpen: false, editUserOpen: false, createUserOpen: false, deletingUser: {}, editingUser: {}, activePage: 1 }
     close = () => this.setState({ deleteUserOpen: false, editUserOpen: false, createUserOpen: false, fileUrl: '', filedata: null })
 
@@ -310,13 +318,4 @@ export class UsersPage extends React.Component {
             </ResponsiveContainer>
         );
     }
-}
-
-UsersPage.propTypes = {
-    users: PropTypes.object,
-    profil: PropTypes.object,
-    getUsers: PropTypes.func,
-    deleteUser: PropTypes.func,
-    createUser: PropTypes.func,
-    updateUser: PropTypes.func,
 }

@@ -17,6 +17,10 @@ const getWidth = () => {
 
 
 class DesktopContainer extends Component {
+    static propTypes = {
+        children: PropTypes.node,
+        profil: PropTypes.object,
+    }
     state = {}
 
     handleItemClick = (e, { name, url }) => {
@@ -58,18 +62,11 @@ class DesktopContainer extends Component {
     }
 }
 
-DesktopContainer.propTypes = {
-    children: PropTypes.node,
-    profil: PropTypes.object,
-}
-
-
 function mapState(state) {
     const { authentication } = state;
     const { profil } = authentication;
     return { profil };
 }
-
 
 const connectedDesktopContainer = connect(mapState)(DesktopContainer);
 export { connectedDesktopContainer as DesktopContainer };

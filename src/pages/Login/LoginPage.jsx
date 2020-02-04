@@ -13,10 +13,15 @@ import {
 import { Formik } from "formik";
 import PropTypes from 'prop-types'
 
-import {userValidationSchema } from '../../helpers/validations'
+import { userValidationSchema } from '../../helpers/validations'
 import './style.css'
 
 export class LoginPage extends React.Component {
+    static propTypes = {
+        loggingIn: PropTypes.bool,
+        login: PropTypes.func,
+        logout: PropTypes.func,
+    }
     constructor(props) {
         super(props);
 
@@ -87,11 +92,4 @@ export class LoginPage extends React.Component {
             </Formik>
         );
     }
-}
-
-
-LoginPage.propTypes = {
-    loggingIn: PropTypes.bool,
-    login: PropTypes.func,
-    logout: PropTypes.func,
 }

@@ -23,6 +23,13 @@ const options = [
 ]
 
 export class HomePage extends React.Component {
+    static propTypes = {
+        products: PropTypes.object,
+        loading: PropTypes.bool,
+        source: PropTypes.object,
+        getProducts: PropTypes.func,
+    }
+
     state = {
         column: null,
         direction: null,
@@ -60,7 +67,6 @@ export class HomePage extends React.Component {
                 data: _.sortBy(source, [clickedColumn]),
                 direction: 'ascending',
             })
-            return
         }
 
         this.setState({
@@ -125,7 +131,7 @@ export class HomePage extends React.Component {
                                             <div style={{
                                                 width: '20px',
                                                 height: '20px',
-                                                backgroundColor: color, 
+                                                backgroundColor: color,
                                                 display: 'inline-block'
                                             }}>&nbsp;</div></Table.Cell>
                                         <Table.Cell>{pantone_value}</Table.Cell>
@@ -143,12 +149,4 @@ export class HomePage extends React.Component {
             </ResponsiveContainer>
         );
     }
-}
-
-
-HomePage.propTypes = {
-    products: PropTypes.object,
-    loading: PropTypes.bool,
-    source: PropTypes.object,
-    getProducts: PropTypes.func,
 }

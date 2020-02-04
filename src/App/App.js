@@ -11,6 +11,9 @@ import { RegisterPage } from '../pages/Register';
 import { UsersPage } from '../pages/Users'
 
 export class App extends React.Component {
+    static propTypes = {
+        alert: PropTypes.object,
+    }
     constructor(props) {
         super(props);
 
@@ -22,34 +25,30 @@ export class App extends React.Component {
     render() {
         const { alert } = this.props;
         return (
-                <div>
-                    {alert.message && store.addNotification({
-                        title: `${alert.type}`,
-                        message: `${alert.message}`,
-                        type: `${alert.type}`,
-                        container: "top-right",
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                            duration: 3000,
-                            onScreen: true
-                        }
-                    })
+            <div>
+                {alert.message && store.addNotification({
+                    title: `${alert.type}`,
+                    message: `${alert.message}`,
+                    type: `${alert.type}`,
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 3000,
+                        onScreen: true
                     }
-                    <Router history={history}>
-                        <Switch>
-                            <PrivateRoute exact path="/" component={HomePage} />
-                            <PrivateRoute exact path="/users" component={UsersPage} />
-                            <Route path="/login" component={LoginPage} />
-                            <Route path="/register" component={RegisterPage} />
-                            <Redirect from="*" to="/" />
-                        </Switch>
-                    </Router>
-                </div>
+                })
+                }
+                <Router history={history}>
+                    <Switch>
+                        <PrivateRoute exact path="/" component={HomePage} />
+                        <PrivateRoute exact path="/users" component={UsersPage} />
+                        <Route path="/login" component={LoginPage} />
+                        <Route path="/register" component={RegisterPage} />
+                        <Redirect from="*" to="/" />
+                    </Switch>
+                </Router>
+            </div>
         );
     }
-}
-
-UsersPage.propTypes = {
-    alert: PropTypes.object,
 }

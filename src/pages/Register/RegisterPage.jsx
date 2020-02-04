@@ -17,6 +17,10 @@ import './style.css'
 
 
 export class RegisterPage extends React.Component {
+    static propTypes = {
+        registering: PropTypes.bool,
+        register: PropTypes.func,
+    }
 
     render() {
         const { registering } = this.props;
@@ -79,10 +83,4 @@ export class RegisterPage extends React.Component {
             </Formik>
         );
     }
-}
-
-
-RegisterPage.propTypes = {
-    registering: PropTypes.bool,
-    register: PropTypes.func,
 }
